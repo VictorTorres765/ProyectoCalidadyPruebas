@@ -1,0 +1,138 @@
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
+using ProyectoEcommerce.Models;
+using ProyectoEcommerce.Models.Entidades;
+using ProyectoEcommerce.Services;
+using System.Diagnostics;
+
+namespace ProyectoEcommerce.Controllers
+{
+    public class HomeController : Controller
+    {
+        private readonly ILogger<HomeController> _logger;
+        private readonly EcommerceContext _context;
+        private readonly IServicioUsuario _servicioUsuario;
+
+        public HomeController(ILogger<HomeController> logger, EcommerceContext context,
+            IServicioUsuario servicioUsuario)
+        {
+            _logger = logger;
+            _context = context;
+            _servicioUsuario = servicioUsuario;
+        }
+
+        public async Task<IActionResult> Index(string sortOrder, string currentFilter, string searchString, int? pageNumber)
+        {
+            ViewData["CurrentSort"] = sortOrder;
+            ViewData["NameSortParm"] = String.IsNullOrEmpty(sortOrder) ? "NameDesc" : "";
+            ViewData["PriceSortParm"] = sortOrder == "Price" ? "PriceDesc" : "Price";
+            if (searchString != null)
+            {
+                pageNumber = 1;
+            }
+            else
+            {
+                searchString = currentFilter;
+            }
+            ViewData["CurrentFilter"] = searchString;
+
+            IQueryable<Producto> query = _context.Productos
+                .Include(p => p.Categoria)
+                .Where(p => p.Inventario > 0);
+
+            if (!string.IsNullOrEmpty(searchString))
+            {
+                query = query
+                    .Where(p => (p.Nombre.ToLower().Contains(searchString.ToLower()) ||
+                                p.Categoria.Nombre.ToLower().Contains(searchString.ToLower())));
+            }
+
+            switch (sortOrder)
+            {
+                case "NameDesc":
+                    query = query.OrderByDescending(p => p.Nombre);
+                    break;
+                default:
+                    query = query.OrderBy(p => p.Nombre);
+                    break;
+            }
+
+            int pageSize = 8;
+
+            CatalogoViewModel model = new()
+            {
+                Productos = await PaginatedList<Producto>.CreateAsync(query, pageNumber ?? 1, pageSize),
+                Categorias = await _context.Categorias.ToListAsync(),
+
+            };
+
+            //agregar codigo usuario
+
+            return View(model);
+        }
+
+        //------------------------------
+        //AGREGAR CODIGO= AGREGARALCARRITO
+        //------------------------------
+
+
+        public async Task<IActionResult> Detalles(int? id)
+        {
+            if (id == null || _context.Productos == null)
+            {
+                return NotFound();
+            }
+
+            var producto = await _context.Productos
+                .FirstOrDefaultAsync(m => m.Id == id);
+            if (producto == null)
+            {
+                return NotFound();
+            }
+
+            return View(producto);
+        }
+
+        //AQUI AGREGAR CÓDIGO PARA VER CARRITO
+
+        //------------------------------
+        //AGREGAR EL CODIGO DISMINUIRCANTIDAD
+        //------------------------------
+
+        //------------------------------
+        //AGREGAR EL CODIGO INCREMENTARCANTIDAD
+        //------------------------------
+
+
+        //------------------------------
+        //AGREGAR EL CODIGO ELIMINAR
+        //------------------------------
+
+        //------------------------------
+        //AGREGAR CODIGO CONFIRMAR VENTA
+        //------------------------------
+
+        //------------------------------
+        //AGREGAR CODIGO VERCARRITO(CarritoViewModel model)
+        //------------------------------
+
+
+        [Route("error/404")]
+        public IActionResult Error404()
+        {
+            return View();
+        }
+
+        public IActionResult Privacy()
+        {
+            return View();
+        }
+
+        [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
+        public IActionResult Error()
+        {
+            return View(new ErrorViewModel { RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier });
+        }
+    }
+}

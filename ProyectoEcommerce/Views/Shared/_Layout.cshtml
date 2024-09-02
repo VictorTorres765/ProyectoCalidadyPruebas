@@ -1,0 +1,100 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>@ViewData["Title"] - Proyecto</title> @* AQUI SE LE DA EL NOMBRE AL SITIO EN DIRECCIÓN*@
+    <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
+    <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
+    <link rel="stylesheet" href="~/ProyectoEcommerce.styles.css" asp-append-version="true" />
+    <link rel="stylesheet" href="~/lib/font-awesome/css/all.min.css" />
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    @await RenderSectionAsync("Estilos", required: false)
+</head>
+<body>
+    <header>
+        <nav class="navbar navbar-light bg-primary">
+            <div class="container-fluid">
+
+                <a class="navbar-brand text-light" href="#"><strong>Tienda de Libros</strong><i class="fa-solid fa-cart-shopping fa-beat"></i></a>
+                <button class="navbar-toggler text-light" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasNavbar" aria-controls="offcanvasNavbar">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
+                <div class="offcanvas offcanvas-end" tabindex="-1" id="offcanvasNavbar" aria-labelledby="offcanvasNavbarLabel">
+                    <div class="offcanvas-header">
+                        <h5 class="offcanvas-title" id="offcanvasNavbarLabel">OPCIONES</h5>
+                        <button type="button" class="btn-close" data-bs-dismiss="offcanvas" aria-label="Close"></button>
+                    </div>
+                    <div class="offcanvas-body">
+                        <ul class="navbar-nav justify-content-end flex-grow-1 pe-3">
+                           
+                            <li class="nav-item">
+                                <a class="nav-link" href="#"></a>
+                            </li>
+                            @if (User.Identity.IsAuthenticated && User.IsInRole("Administrador"))
+                            {
+                                <li class="nav-item dropdown">
+                                    <a class="nav-link dropdown-toggle" href="#" id="offcanvasNavbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                                        Menu
+                                    </a>
+                                    <ul class="dropdown-menu" aria-labelledby="offcanvasNavbarDropdown">
+                                        <li><a class="dropdown-item" asp-area="" asp-controller="Categorias" asp-action="Lista"><i class="fa fa-list-1-2 fa-beat text-danger"></i><strong> Categorías</strong></a></li>
+                                        <li><a class="dropdown-item" asp-area="" asp-controller="Home" asp-action="Index"><i class=" fa fa-gift fa-beat text-danger"></i><strong> Catalogo</strong></a></li>
+                                        <li><a class="dropdown-item" asp-area="" asp-controller="Productos" asp-action="Lista"><i class="fa fa-gifts fa-beat text-danger"></i><strong> Productos</strong></a></li>
+                                        <li><a class="dropdown-item" asp-area="" asp-controller="Usuarios" asp-action="Lista"><i class="fa fa-users fa-beat text-danger"></i><strong> Usuarios</strong></a></li>
+                                        
+                                    </ul>
+                                </li>
+                            }
+                            @if (User.Identity.IsAuthenticated && User.IsInRole("Cliente"))
+                            {
+                                <li class="nav-item">
+                                    <a class="nav-link text-dark" asp-area="" asp-controller="Ventas" asp-action="MisCompras">Mis Compras</a>                                    
+                                    <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Index">Catalogo</a>
+                                </li>
+                            }
+
+                        </ul>
+                        <ul class="nav navbar-nav navbar-right">
+                            @if (User.Identity.IsAuthenticated)
+                            {
+                                <li class="nav-item">
+                                    <a class="nav-link text-dark" asp-area="" asp-controller="Login"
+                                       asp-action="EditarUsuario"><strong>Hola! @User.Identity.Name</strong></a>
+                                </li>
+                                <li class="nav-item">
+                                    <a class="nav-link text-dark" asp-area="" asp-controller="Login" asp-action="CerrarSesion">Cerrar Sesión</a>
+                                </li>
+                            }
+                            else
+                            {
+                                <li class="nav-item">
+                                    <a class="nav-link text-dark" asp-area="" asp-controller="Login" asp-action="IniciarSesion">Iniciar Sesión</a>
+                                </li>
+                            }
+
+                        </ul>
+
+                    </div>
+                </div>
+            </div>
+        </nav>
+    </header>
+    <div class="container">
+        <main role="main" class="pb-3">
+            @RenderBody()
+        </main>
+    </div>
+
+    <footer class="border-top footer text-muted">
+        <div class="container">
+            &copy; 2024 - ProyectoCalidadYPruebasDeSoftware - <a asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
+        </div>
+    </footer>
+    <script src="~/lib/jquery/dist/jquery.min.js"></script>
+    <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="~/js/site.js" asp-append-version="true"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.min.js" integrity="sha512-L0Shl7nXXzIlBSUUPpxrokqq4ojqgZFQczTYlGjzONGTDAcLremjwaWv5A+EDLnxhQzY5xUZPWLOLqYRkY0Cbw==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+    @await RenderSectionAsync("Scripts", required: false)
+</body>
+</html>

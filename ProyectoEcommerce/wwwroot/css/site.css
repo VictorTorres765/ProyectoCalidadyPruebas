@@ -1,0 +1,242 @@
+html {
+    font-size: 14px;
+}
+
+@media (min-width: 768px) {
+    html {
+        font-size: 16px;
+    }
+}
+
+.btn:focus, .btn:active:focus, .btn-link.nav-link:focus, .form-control:focus, .form-check-input:focus {
+    box-shadow: 0 0 0 0.1rem white, 0 0 0 0.25rem #258cfb;
+}
+
+html {
+    position: relative;
+    min-height: 100%;
+}
+
+body {
+    margin-bottom: 60px;
+    background-image: url('/images/silla.png'); /* Ruta relativa a la imagen */
+    background-size: cover; /* Escala la imagen para llenar el fondo */
+    background-repeat: no-repeat; /* Evita que se repita la imagen */
+}
+
+/*Zoom images*/
+.zoom {
+    padding: 5px;
+    background-color: transparent;
+    transition: transform .2s;
+    width: auto;
+    height: auto;
+    margin: 0 auto;
+}
+
+    .zoom:hover {
+        -ms-transform: scale(2); /* IE 9 */
+        -webkit-transform: scale(2); /* Safari 3-8 */
+        transform: scale(2);
+    }
+
+/* -------------------------------------------------- */
+/* Producto detalle */
+
+.container {
+    max-width: 1200px; /* Ajusta según sea necesario */
+}
+
+.product-image {
+    max-width: 300px;
+    max-height: 200px;
+    width: auto;
+    height: auto;
+    border: 5px solid #ddd;
+    border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    padding: 5px;
+    background-color: #fff;
+    display: block;
+    margin: 20px auto 0;
+}
+
+.product-info {
+    text-align: left;
+}
+
+    .product-info dt {
+        font-weight: bold;
+        padding-bottom: 10px;
+        border-bottom: 1px solid #ddd;
+    }
+
+    .product-info dd {
+        margin-bottom: 20px;
+        padding: 10px;
+        background-color: #f9f9f9;
+        border: 1px solid #ddd;
+        border-radius: 5px;
+    }
+
+/* -------------------------------------------------- */
+/* Index css*/
+.card-title h5 {
+    font-size: calc(1rem + 0.5vw); /* El tamaño se ajusta según el ancho de la pantalla */
+    margin: 0.5rem 0;
+}
+
+.card-img-top {
+    object-fit: cover;
+    width: 100%;
+    height: calc(200px + 10vw); /* Altura ajustable según el ancho de la pantalla */
+    border-radius: 15px 15px 0 0;
+}
+
+.card {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    border: 1px solid lightgray;
+    box-shadow: 2px 2px 8px 4px #d3d3d3d1;
+    border-radius: 15px;
+    font-family: sans-serif;
+    margin: 5px;
+    transition: transform 0.2s; /* Smooth transition for hover effect */
+}
+
+    .card:hover {
+        transform: scale(1.05); /* Slightly increase size on hover */
+    }
+
+.btn {
+    border-radius: 20px; /* Bordes redondeados */
+    padding: 8px 16px; /* Tamaño de botón moderado */
+    font-size: 0.85rem; /* Tamaño de fuente ajustado */
+    text-transform: capitalize; /* Texto en lugar de mayúsculas */
+    margin: 5px; /* Espacio entre botones */
+    display: inline-block; /* Asegura comportamiento de bloque en responsive */
+}
+
+.btn-info {
+    background-color: #17a2b8;
+    border: none;
+    color: white;
+}
+
+    .btn-info:hover {
+        background-color: #138496;
+    }
+
+.btn-success {
+    background-color: #28a745;
+    border: none;
+    color: white;
+}
+
+    .btn-success:hover {
+        background-color: #218838;
+    }
+
+.form-control {
+    border-radius: 20px; /* Bordes redondeados */
+    border: 1px solid #ced4da; /* Borde sutil */
+    padding: 8px 12px; /* Relleno ajustado */
+    max-width: 200px; /* Ancho máximo del campo de búsqueda */
+}
+
+.search-form {
+    display: flex;
+    align-items: center;
+    gap: 10px; /* Espacio entre los elementos del formulario */
+    margin-bottom: 20px;
+}
+
+    .search-form label {
+        font-weight: 500;
+        margin-right: 10px; /* Espacio entre la etiqueta y el campo de búsqueda */
+    }
+
+    .search-form .form-control {
+        margin-bottom: 0; /* Eliminar margen inferior */
+    }
+
+    .search-form .btn {
+        width: auto; /* Botones no ocupan todo el ancho */
+        flex-shrink: 0; /* Evita que los botones se reduzcan en pantallas pequeñas */
+    }
+
+.d-flex-container {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: space-between; /* Distribuye espacio uniformemente */
+    margin-bottom: 20px;
+}
+
+    .d-flex-container > div {
+        display: flex;
+        align-items: center;
+        gap: 10px; /* Espacio entre elementos dentro de cada div */
+    }
+
+.pagination-buttons {
+    display: flex;
+    justify-content: center;
+    margin-top: 30px;
+    flex-wrap: wrap; /* Permite que los botones se envuelvan en pantallas pequeñas */
+}
+
+    .pagination-buttons a {
+        border-radius: 20px;
+        padding: 8px 16px;
+        font-size: 0.85rem;
+        text-transform: capitalize;
+        margin: 5px; /* Espacio entre botones de paginación */
+    }
+
+    .pagination-buttons .btn-info {
+        background-color: #17a2b8;
+        border: none;
+        color: white;
+    }
+
+        .pagination-buttons .btn-info:disabled {
+            background-color: #c6e0e8;
+            cursor: not-allowed;
+        }
+
+    .pagination-buttons .btn-success {
+        background-color: #28a745;
+        border: none;
+        color: white;
+    }
+
+        .pagination-buttons .btn-success:disabled {
+            background-color: #c6e0c8;
+            cursor: not-allowed;
+        }
+
+/* -------------------------------------------------- */
+/* CSS LISTA */
+/* Estilos generales para DataTables */
+.dataTables_wrapper .dataTables_paginate .paginate_button {
+    padding: 0.5em 1em;
+}
+
+    .dataTables_wrapper .dataTables_paginate .paginate_button.current {
+        background-color: #007bff;
+        color: #fff;
+    }
+
+/* Hacer la tabla responsiva */
+.table-responsive {
+    overflow-x: auto;
+}
+
+/* Establecer un tamaño uniforme para las imágenes en la tabla */
+table img {
+    width: 100px;
+    height: 100px;
+    object-fit: cover; /* Mantiene el aspecto de la imagen dentro del cuadro */
+}

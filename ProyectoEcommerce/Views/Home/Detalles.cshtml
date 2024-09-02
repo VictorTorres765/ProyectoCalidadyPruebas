@@ -1,0 +1,40 @@
+﻿@model ProyectoEcommerce.Models.Entidades.Producto
+@{
+    ViewData["Title"] = "Detalles";
+    Layout = null;
+}
+
+<link rel="stylesheet" href="~/css/producto-detalles.css" />
+
+<div class="container mt-4">
+    <div class="card">
+        <div class="card-header text-center">
+            <h5>Detalles del Producto</h5>
+        </div>
+        <div class="card-body">
+            <div class="product-info">
+                <dl class="row">
+                    <dt class="col-sm-4 col-md-3">Nombre</dt>
+                    <dd class="col-sm-8 col-md-9">@Model.Nombre</dd>
+
+                    <dt class="col-sm-4 col-md-3">Descripción</dt>
+                    <dd class="col-sm-8 col-md-9">@Model.Descripcion</dd>
+
+                    <dt class="col-sm-4 col-md-3">Precio</dt>
+                    <dd class="col-sm-8 col-md-9">@Model.Precio</dd>
+
+                    <dt class="col-sm-4 col-md-3">Inventario</dt>
+                    <dd class="col-sm-8 col-md-9">@Model.Inventario</dd>
+                </dl>
+            </div>
+            <div>
+                <img src="@Model.URLFoto" class="img-fluid rounded product-image" alt="Foto del Producto" />
+            </div>
+        </div>
+        <div class="card-footer text-center">
+            <button type="button" class="btn btn-sm btn-success" onclick="window.location.href='@Url.Action("Index", "Producto")'">
+                <i class="fa fa-arrow-left"></i> Volver al catálogo
+            </button>
+        </div>
+    </div>
+</div>

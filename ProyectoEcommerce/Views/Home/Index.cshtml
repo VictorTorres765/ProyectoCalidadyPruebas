@@ -1,0 +1,90 @@
+﻿@model ProyectoEcommerce.Models.CatalogoViewModel
+
+<!-- Enlace al archivo CSS -->
+<link rel="stylesheet" href="~/css/site.css" />
+
+<h2 class="text-center text-white">Catálogo de Productos</h2>
+
+@if (TempData["AlertMessage"] != null)
+{
+    <div class="alert alert-success">
+        <strong>Ok!!---</strong>@TempData["AlertMessage"]
+    </div>
+}
+<hr />
+
+<div class="d-flex-container">
+    <div>
+        <a asp-action="Index" asp-route-sortOrder="@ViewData["NameSortParm"]" class="btn btn-info btn-sm">Ordenar por Nombre</a>
+        @foreach (var item in Model.Categorias)
+        {
+            <span class="text-white">@item.Nombre</span>
+        }
+    </div>
+</div>
+
+@*AQUI COMPLETAR CODIGO*@
+<form class="search-form">
+    <label for="search" style="color: white;">Buscar por nombre o categoría:</label>
+    <input type="text" id="search" name="SearchString" class="form-control" value="@ViewData["CurrentFilter"]" />
+    <button type="button" class="btn btn-info btn-sm" onclick="return false;">Buscar</button>
+    <button type="button" class="btn btn-success btn-sm" onclick="return false;">Ver Todos los Productos</button>
+</form>
+
+
+
+<hr />
+
+
+@*AQUI COMPLETAR CODIGO*@
+<div class="row">
+    <div class="row">
+        @foreach (var producto in Model.Productos)
+        {
+            <div class="col-lg-3 col-md-4 col-sm-6 col-12 mb-4">
+                <div class="card mb-3 shadow-sm">
+                    <div class="card-title text-center">
+                        <h5>@producto.Nombre</h5>
+                    </div>
+                    <div class="card-body">
+                        <img class="card-img-top" src="@producto.URLFoto" alt="Imagen del Producto">
+                        <p class="card-text mt-3">Precio: @producto.Precio</p>
+                    </div>
+                    <div class="card-footer text-center">
+                        <a onclick="showInPopup('@Url.Action("Detalles", "Home", new { id = producto.Id }, Context.Request.Scheme)', '')"
+                           class="btn btn-info btn-sm">Ver Detalles</a>
+                        <a asp-action="AgregarAlCarrito" asp-route-id="@producto.Id" class="btn btn-success btn-sm">Agregar al carrito</a>
+                    </div>
+                </div>
+            </div>
+        }
+    </div>
+</div>
+
+<partial name="_MostrarModal" />
+
+
+@{
+    var prevDisabled = !Model.Productos.HasPreviousPage ? "disabled" : "";
+    var nextDisabled = !Model.Productos.HasNextPage ? "disabled" : "";
+}
+<div class="mt-5 pagination-buttons">
+    <a asp-action="Index"
+       asp-route-sortOrder="@ViewData["CurrentSort"]"
+       asp-route-pageNumber="@(Model.Productos.PageIndex - 1)"
+       asp-route-currentFilter="@ViewData["CurrentFilter"]"
+       class="btn-sm btn-info @prevDisabled">
+        Anterior
+    </a>
+    <a asp-action="Index"
+       asp-route-sortOrder="@ViewData["CurrentSort"]"
+       asp-route-pageNumber="@(Model.Productos.PageIndex + 1)"
+       asp-route-currentFilter="@ViewData["CurrentFilter"]"
+       class="btn-sm btn-success @nextDisabled">
+        Siguiente
+    </a>
+</div>
+
+@section Scripts {
+    <script src="~/js/showmodal.js"></script>
+}
