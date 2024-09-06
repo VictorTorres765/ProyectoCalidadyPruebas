@@ -2,17 +2,18 @@
 @{
     ViewData["Title"] = "Crear";
 
-    Layout = null;
+    Layout = "~/Views/Shared/_Layout.cshtml";  // Asegúrate de que se carga el layout correcto
 }
 
 <div class="col-md-12">
     <div class="card">
         <div class="card-header text-center">
-            <h5>Crear Producto</h5>
+            <h5>Crear Libro</h5>
         </div>
         <div class="card-body">
             <form asp-action="Crear" method="post" enctype="multipart/form-data">
-                <div asp-validation-summary="ModelOnly" class="text-danger mb-3"></div>
+                <!-- Aquí cambiamos a 'All' para mostrar todos los errores de validación sin romper estilos -->
+                <div asp-validation-summary="All" class="text-danger mb-3"></div>
 
                 <div class="row">
                     <div class="col-md-6">
@@ -70,10 +71,4 @@
         </div>
     </div>
 </div>
-
-
-
-
-
-
 

@@ -51,7 +51,7 @@ namespace ProyectoEcommerce.Controllers
                     producto.URLFoto = urlimagen;
                     _context.Add(producto);
                     await _context.SaveChangesAsync();
-                    TempData["AlertMessage"] = "Producto creado exitosamente!!!";
+                    TempData["AlertMessage"] = "Libro creado exitosamente!!!";
                     return RedirectToAction("Lista");
                 }
                 catch
@@ -111,7 +111,7 @@ namespace ProyectoEcommerce.Controllers
 
                     _context.Update(productoExistente);
                     await _context.SaveChangesAsync();
-                    TempData["AlertMessage"] = "Producto actualizado exitosamente!!!";
+                    TempData["AlertMessage"] = "Detalles de Libro actualizado exitosamente!!!";
                     return RedirectToAction("Lista");
                 }
                 catch
@@ -145,7 +145,7 @@ namespace ProyectoEcommerce.Controllers
             {
                 _context.Productos.Remove(producto);
                 await _context.SaveChangesAsync();
-                TempData["AlertMessage"] = "Producto eliminado exitosamente!!!";
+                TempData["AlertMessage"] = "Libro eliminado exitosamente!!!";
             }
             catch (Exception ex)
             {
