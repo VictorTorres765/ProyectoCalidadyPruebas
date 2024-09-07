@@ -41,14 +41,24 @@ namespace ProyectoEcommerce.Controllers
         {
             if (ModelState.IsValid)
             {
+                // Verificar que Imagen no sea nulo antes de usar OpenReadStream
+                if (Imagen != null)
+                {
+                    Stream image = Imagen.OpenReadStream();
+                    string urlimagen = await _servicioImagen.SubirImagen(image, Imagen.FileName);
 
-                Stream image = Imagen.OpenReadStream();
-                string urlimagen = await _servicioImagen.SubirImagen(image, Imagen.FileName);
+                    producto.URLFoto = urlimagen;
+                }
+                else
+                {
+                    // Si la imagen es obligatoria, se agrega un error
+                    ModelState.AddModelError("Imagen", "Debe subir una imagen.");
+                    producto.Categorias = await _servicioLista.GetListaCategorias();
+                    return View(producto);
+                }
 
                 try
                 {
-
-                    producto.URLFoto = urlimagen;
                     _context.Add(producto);
                     await _context.SaveChangesAsync();
                     TempData["AlertMessage"] = "Libro creado exitosamente!!!";
@@ -78,7 +88,6 @@ namespace ProyectoEcommerce.Controllers
             }
 
             producto.Categorias = await _servicioLista.GetListaCategorias();
-
 
             return View(producto);
         }
@@ -121,7 +130,6 @@ namespace ProyectoEcommerce.Controllers
             }
 
             producto.Categorias = await _servicioLista.GetListaCategorias();
-
 
             return View(producto);
         }

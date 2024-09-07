@@ -23,7 +23,7 @@ namespace ProyectoEcommerce.Models.Data
             await _context.Database.EnsureCreatedAsync();
             await VerificarCategoriasAsync();           
             await VerificarRolesAsync();
-            await VerificarUsuariosAsync("Administrador", "administrador@yopmail.com", "3170 2187", 
+            await VerificarUsuariosAsync("Administrador", "admin@gmail.com", "987456324", 
             TipoUsuario.Administrador);
         }
 
@@ -59,7 +59,7 @@ namespace ProyectoEcommerce.Models.Data
             if(!_context.Categorias.Any())
             {
                 _context.Categorias.Add(new Categoria { Nombre = "Ficción" });
-                _context.Categorias.Add(new Categoria { Nombre = "L'irica" });
+                _context.Categorias.Add(new Categoria { Nombre = "Lírica" });
                 _context.Categorias.Add(new Categoria { Nombre = "Aventura" });
                 _context.Categorias.Add(new Categoria { Nombre = "Cuento" });
                 _context.Categorias.Add(new Categoria { Nombre = "Poesía" });

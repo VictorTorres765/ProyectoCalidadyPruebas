@@ -1,8 +1,7 @@
 ﻿@model ProyectoEcommerce.Models.Entidades.Producto
 @{
     ViewData["Title"] = "Crear";
-
-    Layout = "~/Views/Shared/_Layout.cshtml";  // Asegúrate de que se carga el layout correcto
+    Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
 <div class="col-md-12">
@@ -12,21 +11,21 @@
         </div>
         <div class="card-body">
             <form asp-action="Crear" method="post" enctype="multipart/form-data">
-                <!-- Aquí cambiamos a 'All' para mostrar todos los errores de validación sin romper estilos -->
-                <div asp-validation-summary="All" class="text-danger mb-3"></div>
+                <!-- Mostrar errores de validación generales -->
+                <div asp-validation-summary="ModelOnly" class="text-danger mb-3"></div>
 
                 <div class="row">
                     <div class="col-md-6">
                         <div class="form-group mb-3">
                             <label for="Nombre">Nombre</label>
-                            <input asp-for="Nombre" class="form-control" placeholder="Nombre" />
+                            <input asp-for="Nombre" class="form-control" placeholder="Nombre" required data-val-required="El campo Nombre es obligatorio." />
                             <span asp-validation-for="Nombre" class="text-danger"></span>
                         </div>
                     </div>
                     <div class="col-md-6">
                         <div class="form-group mb-3">
                             <label for="CategoriaId">Categoría</label>
-                            <select asp-for="CategoriaId" asp-items="Model.Categorias" class="form-control"></select>
+                            <select asp-for="CategoriaId" asp-items="Model.Categorias" class="form-control" required data-val-required="Debes seleccionar una categoría."></select>
                             <span asp-validation-for="CategoriaId" class="text-danger"></span>
                         </div>
                     </div>
@@ -34,7 +33,7 @@
 
                 <div class="form-group mb-3">
                     <label for="Descripcion">Descripción</label>
-                    <textarea asp-for="Descripcion" class="form-control" placeholder="Descripción"></textarea>
+                    <textarea asp-for="Descripcion" class="form-control" placeholder="Descripción" required data-val-required="El campo Descripción es obligatorio."></textarea>
                     <span asp-validation-for="Descripcion" class="text-danger"></span>
                 </div>
 
@@ -42,14 +41,14 @@
                     <div class="col-md-6">
                         <div class="form-group mb-3">
                             <label for="Precio">Precio</label>
-                            <input asp-for="Precio" class="form-control" placeholder="Precio" />
+                            <input asp-for="Precio" class="form-control" placeholder="Precio" required min="0.01" data-val="true" data-val-required="El campo Precio es obligatorio." data-val-min="El precio debe ser mayor a 0." />
                             <span asp-validation-for="Precio" class="text-danger"></span>
                         </div>
                     </div>
                     <div class="col-md-6">
                         <div class="form-group mb-3">
                             <label for="Inventario">Inventario</label>
-                            <input asp-for="Inventario" class="form-control" placeholder="Inventario" />
+                            <input asp-for="Inventario" class="form-control" placeholder="Inventario" required min="0" data-val="true" data-val-required="El campo Inventario es obligatorio." data-val-min="El inventario debe ser mayor o igual a 0." />
                             <span asp-validation-for="Inventario" class="text-danger"></span>
                         </div>
                     </div>
@@ -57,8 +56,11 @@
 
                 <div class="form-group mb-3">
                     <label for="Imagen">Imagen</label>
-                    <input type="file" class="form-control" name="Imagen">
-                    <span asp-validation-for="URLFoto" class="text-danger"></span>
+                    <input type="file" class="form-control" name="Imagen" />
+                    @if (ViewData.ModelState.ContainsKey("Imagen"))
+                    {
+                        <span class="text-danger">@ViewData.ModelState["Imagen"].Errors[0].ErrorMessage</span>
+                    }
                 </div>
 
                 <div class="card-footer text-center">
@@ -72,3 +74,6 @@
     </div>
 </div>
 
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+}
