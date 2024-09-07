@@ -11,26 +11,30 @@
             </div>
             <div class="card-body">
                 <form asp-action="IniciarSesion">
+                    <!-- Mensaje de validación -->
                     <div asp-validation-summary="ModelOnly" class="text-danger"></div>
 
+                    <!-- Campo para Correo Electrónico -->
                     <div class="form-group mb-3">
                         <label for="Username">Correo Electrónico</label>
                         <input asp-for="Username" class="form-control" placeholder="Ingresa tu correo" />
                         <span asp-validation-for="Username" class="text-danger"></span>
                     </div>
 
+                    <!-- Campo para Contraseña -->
                     <div class="form-group mb-3">
                         <label for="Password">Contraseña</label>
                         <input asp-for="Password" type="password" class="form-control" placeholder="Ingresa tu contraseña" />
                         <span asp-validation-for="Password" class="text-danger"></span>
                     </div>
 
+                    <!-- Checkbox para "Recuérdame" -->
                     <div class="form-group form-check mb-3">
                         <input asp-for="RememberMe" type="checkbox" class="form-check-input" id="RememberMe" />
                         <label asp-for="RememberMe" class="form-check-label">Recuérdame</label>
-                        <span asp-validation-for="RememberMe" class="text-warning"></span>
                     </div>
 
+                    <!-- Botones de acción: Iniciar Sesión y Registrar Nuevo Usuario -->
                     <div class="d-grid gap-2">
                         <button type="submit" class="btn btn-primary">Iniciar Sesión</button>
                         <a asp-action="Registro" class="btn btn-success">Registrar Nuevo Usuario</a>

@@ -1,5 +1,7 @@
 html {
     font-size: 14px;
+    position: relative;
+    min-height: 100%;
 }
 
 @media (min-width: 768px) {
@@ -8,15 +10,16 @@ html {
     }
 }
 
-.btn:focus, .btn:active:focus, .btn-link.nav-link:focus, .form-control:focus, .form-check-input:focus {
+/* Foco en botones y formularios */
+.btn:focus,
+.btn:active:focus,
+.btn-link.nav-link:focus,
+.form-control:focus,
+.form-check-input:focus {
     box-shadow: 0 0 0 0.1rem white, 0 0 0 0.25rem #258cfb;
 }
 
-html {
-    position: relative;
-    min-height: 100%;
-}
-
+/* Estilos para el cuerpo */
 body {
     margin-bottom: 60px;
     background-image: url('/images/silla.png'); /* Ruta relativa a la imagen */
@@ -24,11 +27,11 @@ body {
     background-repeat: no-repeat; /* Evita que se repita la imagen */
 }
 
-/*Zoom images*/
+/* Zoom de imágenes */
 .zoom {
     padding: 5px;
     background-color: transparent;
-    transition: transform .2s;
+    transition: transform .2s ease-in-out; /* Añadido ease-in-out para suavizar */
     width: auto;
     height: auto;
     margin: 0 auto;
@@ -40,9 +43,7 @@ body {
         transform: scale(2);
     }
 
-/* -------------------------------------------------- */
-/* Producto detalle */
-
+/* Estilos para producto detalle */
 .container {
     max-width: 1200px; /* Ajusta según sea necesario */
 }
@@ -79,10 +80,9 @@ body {
         border-radius: 5px;
     }
 
-/* -------------------------------------------------- */
-/* Index css*/
+/* Index css */
 .card-title h5 {
-    font-size: calc(1rem + 0.5vw); /* El tamaño se ajusta según el ancho de la pantalla */
+    font-size: calc(1rem + 0.5vw); /* Ajustable según el ancho de pantalla */
     margin: 0.5rem 0;
 }
 
@@ -102,20 +102,23 @@ body {
     border-radius: 15px;
     font-family: sans-serif;
     margin: 5px;
-    transition: transform 0.2s; /* Smooth transition for hover effect */
+    transition: transform 0.2s ease-in-out; /* Añadido ease-in-out */
 }
 
     .card:hover {
-        transform: scale(1.05); /* Slightly increase size on hover */
+        transform: scale(1.05); /* Efecto de aumento suave */
     }
 
+/* Botones */
 .btn {
-    border-radius: 20px; /* Bordes redondeados */
-    padding: 8px 16px; /* Tamaño de botón moderado */
-    font-size: 0.85rem; /* Tamaño de fuente ajustado */
+    border-radius: 10px; /* Reducir el redondeo de los bordes */
+    padding: 10px 15px; /* Ajustar el relleno para mejorar el diseño */
+    font-size: 1rem;
     text-transform: capitalize; /* Texto en lugar de mayúsculas */
-    margin: 5px; /* Espacio entre botones */
+    margin: 5px 0; /* Espacio entre botones */
     display: inline-block; /* Asegura comportamiento de bloque en responsive */
+    width: 100%; /* Hacer que los botones ocupen todo el ancho del contenedor */
+    font-weight: bold;
 }
 
 .btn-info {
@@ -138,105 +141,54 @@ body {
         background-color: #218838;
     }
 
+.btn-primary {
+    background-color: #007bff;
+    border-color: #007bff;
+}
+
+    .btn-primary:hover {
+        background-color: #0056b3;
+}
+
+/* Formulario */
 .form-control {
-    border-radius: 20px; /* Bordes redondeados */
-    border: 1px solid #ced4da; /* Borde sutil */
-    padding: 8px 12px; /* Relleno ajustado */
-    max-width: 200px; /* Ancho máximo del campo de búsqueda */
+    border-radius: 8px; /* Reducir el redondeo de los bordes */
+    border: 1px solid #ced4da;
+    padding: 10px 15px; /* Ajustar el relleno interno */
+    max-width: 100%; /* Asegurar que el ancho ocupe el contenedor */
+    margin-bottom: 15px; /* Espacio inferior entre campos */
 }
 
-.search-form {
-    display: flex;
-    align-items: center;
-    gap: 10px; /* Espacio entre los elementos del formulario */
-    margin-bottom: 20px;
+/* Ajustar el redondeado de los botones */
+.form-group.mb-3 {
+    margin-bottom: 1.5rem; /* Ajuste del espacio entre los elementos del formulario */
 }
 
-    .search-form label {
-        font-weight: 500;
-        margin-right: 10px; /* Espacio entre la etiqueta y el campo de búsqueda */
-    }
-
-    .search-form .form-control {
-        margin-bottom: 0; /* Eliminar margen inferior */
-    }
-
-    .search-form .btn {
-        width: auto; /* Botones no ocupan todo el ancho */
-        flex-shrink: 0; /* Evita que los botones se reduzcan en pantallas pequeñas */
-    }
-
-.d-flex-container {
-    display: flex;
-    flex-wrap: wrap;
-    align-items: center;
-    justify-content: space-between; /* Distribuye espacio uniformemente */
-    margin-bottom: 20px;
+/* Ajuste de alineación del checkbox */
+.form-check-input {
+    margin-right: 10px; /* Separar el checkbox de la etiqueta */
 }
 
-    .d-flex-container > div {
-        display: flex;
-        align-items: center;
-        gap: 10px; /* Espacio entre elementos dentro de cada div */
-    }
-
-.pagination-buttons {
-    display: flex;
-    justify-content: center;
-    margin-top: 30px;
-    flex-wrap: wrap; /* Permite que los botones se envuelvan en pantallas pequeñas */
+.form-check-label {
+    margin-left: 5px; /* Mejorar la alineación de la etiqueta */
 }
 
-    .pagination-buttons a {
-        border-radius: 20px;
-        padding: 8px 16px;
-        font-size: 0.85rem;
-        text-transform: capitalize;
-        margin: 5px; /* Espacio entre botones de paginación */
-    }
-
-    .pagination-buttons .btn-info {
-        background-color: #17a2b8;
-        border: none;
-        color: white;
-    }
-
-        .pagination-buttons .btn-info:disabled {
-            background-color: #c6e0e8;
-            cursor: not-allowed;
-        }
-
-    .pagination-buttons .btn-success {
-        background-color: #28a745;
-        border: none;
-        color: white;
-    }
-
-        .pagination-buttons .btn-success:disabled {
-            background-color: #c6e0c8;
-            cursor: not-allowed;
-        }
-
-/* -------------------------------------------------- */
-/* CSS LISTA */
-/* Estilos generales para DataTables */
-.dataTables_wrapper .dataTables_paginate .paginate_button {
-    padding: 0.5em 1em;
+/* Flex container */
+.d-grid.gap-2 {
+    gap: 15px; /* Aumentar el espacio entre botones */
 }
 
-    .dataTables_wrapper .dataTables_paginate .paginate_button.current {
-        background-color: #007bff;
-        color: #fff;
-    }
-
-/* Hacer la tabla responsiva */
-.table-responsive {
-    overflow-x: auto;
+/* Ajuste de los márgenes y centrado */
+.row.justify-content-center {
+    margin-top: 40px; /* Mejorar el centrado vertical */
 }
 
-/* Establecer un tamaño uniforme para las imágenes en la tabla */
-table img {
-    width: 100px;
-    height: 100px;
-    object-fit: cover; /* Mantiene el aspecto de la imagen dentro del cuadro */
+.card-header {
+    border-bottom: none; /* Eliminar la línea debajo del header */
+    padding-bottom: 10px; /* Añadir espacio */
+}
+
+.card {
+    padding: 20px; /* Añadir un padding más amplio */
+    box-shadow: 2px 2px 10px rgba(0, 0, 0, 0.15); /* Reducir intensidad de la sombra */
 }

@@ -15,8 +15,10 @@
     <header>
         <nav class="navbar navbar-light bg-primary">
             <div class="container-fluid">
-
-                <a class="navbar-brand text-light" href="#"><strong>Tienda de Libros</strong><i class="fa-solid fa-cart-shopping fa-beat"></i></a>
+                <!-- Aquí se actualiza la ruta para redirigir a la vista Index -->
+                <a class="navbar-brand text-light" asp-controller="Home" asp-action="Index">
+                    <strong>Tienda de Libros</strong><i class="fa-solid fa-cart-shopping fa-beat"></i>
+                </a>
                 <button class="navbar-toggler text-light" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasNavbar" aria-controls="offcanvasNavbar">
                     <span class="navbar-toggler-icon"></span>
                 </button>
@@ -27,7 +29,7 @@
                     </div>
                     <div class="offcanvas-body">
                         <ul class="navbar-nav justify-content-end flex-grow-1 pe-3">
-                           
+
                             <li class="nav-item">
                                 <a class="nav-link" href="#"></a>
                             </li>
@@ -42,14 +44,14 @@
                                         <li><a class="dropdown-item" asp-area="" asp-controller="Home" asp-action="Index"><i class=" fa fa-gift fa-beat text-danger"></i><strong> Catalogo</strong></a></li>
                                         <li><a class="dropdown-item" asp-area="" asp-controller="Productos" asp-action="Lista"><i class="fa fa-gifts fa-beat text-danger"></i><strong> Libros</strong></a></li>
                                         <li><a class="dropdown-item" asp-area="" asp-controller="Usuarios" asp-action="Lista"><i class="fa fa-users fa-beat text-danger"></i><strong> Usuarios</strong></a></li>
-                                        
+
                                     </ul>
                                 </li>
                             }
                             @if (User.Identity.IsAuthenticated && User.IsInRole("Cliente"))
                             {
                                 <li class="nav-item">
-                                    <a class="nav-link text-dark" asp-area="" asp-controller="Ventas" asp-action="MisCompras">Mis Compras</a>                                    
+                                    <a class="nav-link text-dark" asp-area="" asp-controller="Ventas" asp-action="MisCompras">Mis Compras</a>
                                     <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Index">Catalogo</a>
                                 </li>
                             }
@@ -98,5 +100,3 @@
     @await RenderSectionAsync("Scripts", required: false)
 </body>
 </html>
-
-@*SI VES ESTO FUNCIONA EL GIT*@

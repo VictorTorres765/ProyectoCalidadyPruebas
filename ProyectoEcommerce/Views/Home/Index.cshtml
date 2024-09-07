@@ -1,6 +1,4 @@
-﻿@model ProyectoEcommerce.Models.CatalogoViewModel
-
-<!-- Enlace al archivo CSS -->
+﻿<!-- Enlace al archivo CSS -->
 <link rel="stylesheet" href="~/css/site.css" />
 
 <h2 class="text-center text-white">Catálogo</h2>
@@ -13,74 +11,75 @@
 }
 <hr />
 
-<div class="d-flex-container">
-    <div>
-        <a asp-action="Index" asp-route-sortOrder="@ViewData["NameSortParm"]" class="btn btn-info btn-sm">Ordenar por Nombre</a>
-        @foreach (var item in Model.Categorias)
-        {
-            <span class="text-white">@item.Nombre</span>
-        }
+<!-- Opciones de ordenamiento y categorías -->
+<div class="d-flex-container mb-4">
+    <div class="d-flex flex-wrap justify-content-between">
+        <a asp-action="Index" asp-route-sortOrder="@ViewData["NameSortParm"]" class="btn btn-info">Ordenar por Nombre</a>
+        <div class="d-flex flex-wrap gap-2">
+            @foreach (var item in Model.Categorias)
+            {
+                <span class="text-white">@item.Nombre</span>
+            }
+        </div>
     </div>
 </div>
 
-@*AQUI COMPLETAR CODIGO*@
-<form class="search-form">
+<!-- Formulario de búsqueda -->
+<form class="search-form mb-4">
     <label for="search" style="color: white;">Buscar por nombre o categoría:</label>
     <input type="text" id="search" name="SearchString" class="form-control" value="@ViewData["CurrentFilter"]" />
-    <button type="button" class="btn btn-info btn-sm" onclick="return false;">Buscar</button>
-    <button type="button" class="btn btn-success btn-sm" onclick="return false;">Ver Todos los Libros</button>
+    <div class="d-grid gap-2">
+        <button type="button" class="btn btn-info btn-sm" onclick="return false;">Buscar</button>
+        <button type="button" class="btn btn-success btn-sm" onclick="return false;">Ver Todos los Libros</button>
+    </div>
 </form>
-
-
 
 <hr />
 
-
-@*AQUI COMPLETAR CODIGO*@
+<!-- Listado de productos -->
 <div class="row">
-    <div class="row">
-        @foreach (var producto in Model.Productos)
-        {
-            <div class="col-lg-3 col-md-4 col-sm-6 col-12 mb-4">
-                <div class="card mb-3 shadow-sm">
-                    <div class="card-title text-center">
-                        <h5>@producto.Nombre</h5>
-                    </div>
-                    <div class="card-body">
-                        <img class="card-img-top" src="@producto.URLFoto" alt="Imagen del Producto">
-                        <p class="card-text mt-3">Precio: @producto.Precio</p>
-                    </div>
-                    <div class="card-footer text-center">
-                        <a onclick="showInPopup('@Url.Action("Detalles", "Home", new { id = producto.Id }, Context.Request.Scheme)', '')"
-                           class="btn btn-info btn-sm">Ver Detalles</a>
-                        <a asp-action="AgregarAlCarrito" asp-route-id="@producto.Id" class="btn btn-success btn-sm">Agregar al carrito</a>
-                    </div>
+    @foreach (var producto in Model.Productos)
+    {
+        <div class="col-lg-3 col-md-4 col-sm-6 col-12 mb-4">
+            <div class="card mb-3 shadow-sm">
+                <div class="card-title text-center">
+                    <h5>@producto.Nombre</h5>
+                </div>
+                <div class="card-body">
+                    <img class="card-img-top" src="@producto.URLFoto" alt="Imagen del Producto">
+                    <p class="card-text mt-3">Precio: @producto.Precio</p>
+                </div>
+                <div class="card-footer text-center">
+                    <a onclick="showInPopup('@Url.Action("Detalles", "Home", new { id = producto.Id }, Context.Request.Scheme)', '')"
+                       class="btn btn-info btn-sm">Ver Detalles</a>
+                    <a asp-action="AgregarAlCarrito" asp-route-id="@producto.Id" class="btn btn-success btn-sm">Agregar al carrito</a>
                 </div>
             </div>
-        }
-    </div>
+        </div>
+    }
 </div>
 
+<!-- Modal parcial -->
 <partial name="_MostrarModal" />
 
-
+<!-- Paginación -->
 @{
     var prevDisabled = !Model.Productos.HasPreviousPage ? "disabled" : "";
     var nextDisabled = !Model.Productos.HasNextPage ? "disabled" : "";
 }
-<div class="mt-5 pagination-buttons">
+<div class="mt-5 pagination-buttons d-flex justify-content-between">
     <a asp-action="Index"
        asp-route-sortOrder="@ViewData["CurrentSort"]"
        asp-route-pageNumber="@(Model.Productos.PageIndex - 1)"
        asp-route-currentFilter="@ViewData["CurrentFilter"]"
-       class="btn-sm btn-info @prevDisabled">
+       class="btn btn-info btn-sm @prevDisabled">
         Anterior
     </a>
     <a asp-action="Index"
        asp-route-sortOrder="@ViewData["CurrentSort"]"
        asp-route-pageNumber="@(Model.Productos.PageIndex + 1)"
        asp-route-currentFilter="@ViewData["CurrentFilter"]"
-       class="btn-sm btn-success @nextDisabled">
+       class="btn btn-success btn-sm @nextDisabled">
         Siguiente
     </a>
 </div>
