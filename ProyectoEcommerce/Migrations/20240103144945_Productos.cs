@@ -19,7 +19,7 @@ namespace ProyectoEcommerce.Migrations
                     Nombre = table.Column<string>(type: "nvarchar(100)", maxLength: 100, nullable: false),
                     Precio = table.Column<decimal>(type: "decimal(18,2)", nullable: false),
                     Inventario = table.Column<int>(type: "int", nullable: false),
-                    Descripcion = table.Column<string>(type: "nvarchar(500)", maxLength: 500, nullable: true),
+                    Descripcion = table.Column<string>(type: "nvarchar(3000)", maxLength: 3000, nullable: true),
                     URLFoto = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     CategoriaId = table.Column<int>(type: "int", nullable: false)
                 },

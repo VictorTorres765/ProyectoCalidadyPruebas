@@ -13,13 +13,15 @@ namespace ProyectoEcommerce.Controllers
         private readonly ILogger<HomeController> _logger;
         private readonly EcommerceContext _context;
         private readonly IServicioUsuario _servicioUsuario;
+        private readonly IServicioVenta _servicioVenta;
 
         public HomeController(ILogger<HomeController> logger, EcommerceContext context,
-            IServicioUsuario servicioUsuario)
+            IServicioUsuario servicioUsuario, IServicioVenta servicioVenta)
         {
             _logger = logger;
             _context = context;
             _servicioUsuario = servicioUsuario;
+            _servicioVenta = servicioVenta;
         }
 
         public async Task<IActionResult> Index(string sortOrder, string currentFilter, string searchString, int? pageNumber)
@@ -67,15 +69,52 @@ namespace ProyectoEcommerce.Controllers
 
             };
 
-            //agregar codigo usuario
+            Usuario usuario = await _servicioUsuario.ObtenerUsuario(User.Identity.Name);
+            if (usuario != null)
+            {
+                model.Cantidad = await _context.VentasTemporales
+                .Where(ts => ts.Usuario.Id == usuario.Id)
+                .SumAsync(ts => ts.Cantidad);
+            }
 
             return View(model);
         }
 
-        //------------------------------
-        //AGREGAR CODIGO= AGREGARALCARRITO
-        //------------------------------
+        public async Task<IActionResult> AgregarAlCarrito(int? id)
+        {
+            if (id == null)
+            {
+                return NotFound();
+            }
 
+            if (!User.Identity.IsAuthenticated)
+            {
+                return RedirectToAction("IniciarSesion", "Login");
+            }
+
+            Producto producto = await _context.Productos.FindAsync(id);
+            if (producto == null)
+            {
+                return NotFound();
+            }
+
+            Usuario usuario = await _servicioUsuario.ObtenerUsuario(User.Identity.Name);
+            if (usuario == null)
+            {
+                return NotFound();
+            }
+
+            VentaTemporal ventaTemporal = new()
+            {
+                Producto = producto,
+                Cantidad = 1,
+                Usuario = usuario
+            };
+
+            _context.VentasTemporales.Add(ventaTemporal);
+            await _context.SaveChangesAsync();
+            return RedirectToAction(nameof(Index));
+        }
 
         public async Task<IActionResult> Detalles(int? id)
         {
@@ -94,28 +133,121 @@ namespace ProyectoEcommerce.Controllers
             return View(producto);
         }
 
-        //AQUI AGREGAR CÓDIGO PARA VER CARRITO
+        [Authorize]
+        public async Task<IActionResult> VerCarrito()
+        {
+            Usuario usuario = await _servicioUsuario.ObtenerUsuario(User.Identity.Name);
+            if (usuario == null)
+            {
+                return NotFound();
+            }
 
-        //------------------------------
-        //AGREGAR EL CODIGO DISMINUIRCANTIDAD
-        //------------------------------
+            List<VentaTemporal> temporalSale = await _context.VentasTemporales
+                .Include(ts => ts.Producto)
+                .Where(ts => ts.Usuario.Id == usuario.Id)
+                .ToListAsync();
 
-        //------------------------------
-        //AGREGAR EL CODIGO INCREMENTARCANTIDAD
-        //------------------------------
+            CarritoViewModel model = new()
+            {
+                Usuario = usuario,
+                VentasTemporales = temporalSale,
+            };
 
+            return View(model);
+        }
 
-        //------------------------------
-        //AGREGAR EL CODIGO ELIMINAR
-        //------------------------------
+        public async Task<IActionResult> DisminuirCantidad(int? id)
+        {
+            if (id == null)
+            {
+                return NotFound();
+            }
 
-        //------------------------------
-        //AGREGAR CODIGO CONFIRMAR VENTA
-        //------------------------------
+            VentaTemporal ventaTemporal = await _context.VentasTemporales.FindAsync(id);
+            if (ventaTemporal == null)
+            {
+                return NotFound();
+            }
 
-        //------------------------------
-        //AGREGAR CODIGO VERCARRITO(CarritoViewModel model)
-        //------------------------------
+            if (ventaTemporal.Cantidad > 1)
+            {
+                ventaTemporal.Cantidad--;
+                _context.VentasTemporales.Update(ventaTemporal);
+                await _context.SaveChangesAsync();
+            }
+
+            return RedirectToAction(nameof(VerCarrito));
+        }
+
+        public async Task<IActionResult> IncrementarCantidad(int? id)
+        {
+            if (id == null)
+            {
+                return NotFound();
+            }
+
+            VentaTemporal ventaTemporal = await _context.VentasTemporales.FindAsync(id);
+            if (ventaTemporal == null)
+            {
+                return NotFound();
+            }
+
+            ventaTemporal.Cantidad++;
+            _context.VentasTemporales.Update(ventaTemporal);
+            await _context.SaveChangesAsync();
+
+            return RedirectToAction(nameof(VerCarrito));
+        }
+
+        public async Task<IActionResult> Eliminar(int? id)
+        {
+            if (id == null)
+            {
+                return NotFound();
+            }
+
+            VentaTemporal ventaTemporal = await _context.VentasTemporales.FindAsync(id);
+            if (ventaTemporal == null)
+            {
+                return NotFound();
+            }
+
+            _context.VentasTemporales.Remove(ventaTemporal);
+            await _context.SaveChangesAsync();
+            return RedirectToAction(nameof(VerCarrito));
+        }
+
+        [Authorize]
+        public IActionResult ConfirmarVenta()
+        {
+            return View();
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> VerCarrito(CarritoViewModel model)
+        {
+            Usuario usuario = await _servicioUsuario.ObtenerUsuario(User.Identity.Name);
+            if (usuario == null)
+            {
+                return NotFound();
+            }
+
+            model.Usuario = usuario;
+            model.VentasTemporales = await _context.VentasTemporales
+                .Include(ts => ts.Producto)
+                .Where(ts => ts.Usuario.Id == usuario.Id)
+                .ToListAsync();
+
+            Response response = await _servicioVenta.ProcesarVenta(model);
+            if (response.IsSuccess)
+            {
+                return RedirectToAction(nameof(ConfirmarVenta));
+            }
+
+            ModelState.AddModelError(string.Empty, response.Message);
+            return View(model);
+        }
 
 
         [Route("error/404")]

@@ -25,6 +25,7 @@ namespace ProyectoEcommerce
             builder.Services.AddScoped<IServicioUsuario, ServicioUsuario>();
             builder.Services.AddScoped<IServicioLista, ServicioLista>();
             builder.Services.AddScoped<IServicioImagen, ServicioImagen>();
+            builder.Services.AddScoped<IServicioVenta, ServicioVenta>();
             builder.Services.AddFlashMessage();
 
             builder.Services.AddIdentity<Usuario, IdentityRole>(cfg =>

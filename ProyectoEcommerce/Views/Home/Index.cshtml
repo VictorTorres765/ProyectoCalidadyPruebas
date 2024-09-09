@@ -29,12 +29,24 @@
     <label for="search" style="color: white;">Buscar por nombre o categoría:</label>
     <input type="text" id="search" name="SearchString" class="form-control" value="@ViewData["CurrentFilter"]" />
     <div class="d-grid gap-2">
-        <button type="button" class="btn btn-info btn-sm" onclick="return false;">Buscar</button>
-        <button type="button" class="btn btn-success btn-sm" onclick="return false;">Ver Todos los Libros</button>
+        <button type="button" class="btn btn-info btn-sm custom-button" onclick="return false;">Buscar</button>
+        <button type="button" class="btn btn-success btn-sm custom-button" onclick="return false;">Ver Todos los Libros</button>
+
     </div>
 </form>
 
-<hr />
+<!-- Ver Carrito de Compras -->
+@if (Model.Cantidad > 0)
+{
+    <div class="d-flex justify-content-end mb-4">
+        <a onclick="showInPopup('@Url.Action("VerCarrito", "Home", Context.Request.Scheme)', '')" class="btn btn-success btn-sm custom-button d-flex align-items-center">
+            <i class="fas fa-shopping-cart fa-beat me-2"></i>
+            Ver Carrito (@Model.Cantidad)
+        </a>
+    </div>
+}
+
+
 
 <!-- Listado de productos -->
 <div class="row">

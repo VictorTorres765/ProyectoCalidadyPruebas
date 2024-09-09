@@ -192,3 +192,18 @@ body {
     padding: 20px; /* Añadir un padding más amplio */
     box-shadow: 2px 2px 10px rgba(0, 0, 0, 0.15); /* Reducir intensidad de la sombra */
 }
+/*BORRAR SI SALE MAL */
+.custom-button {
+    padding: 5px 10px; /* Reduce el relleno */
+    font-size: 0.85rem; /* Ajusta el tamaño de la fuente */
+    width: auto; /* No ocupar todo el ancho del contenedor */
+    display: inline-block; /* Para que los botones mantengan su tamaño natural */
+    margin: 5px; /* Añade un pequeño margen alrededor de los botones */
+    border-radius: 8px; /* Similar al estilo del botón de carrito */
+}
+
+.d-grid.gap-2 .custom-button {
+    width: auto; /* Evitar que se expandan demasiado */
+    align-self: flex-start; /* Asegura que se ajusten al contenido */
+}
+
