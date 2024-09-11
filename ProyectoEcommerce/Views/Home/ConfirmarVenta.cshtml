@@ -1,22 +1,26 @@
-﻿﻿@{
+﻿@{
     ViewData["Title"] = "Confirmar Venta";
 }
 
-<div class="row">
-    <div class="col-md-4 offset-4">
-        <img src="~/images/compra.jpg" style="width:350px; height:300px;" />
-        <div class=" card">
-            <div class=" card-header text-center">
-                <h2 class=" text-success">¡Gracias!</h2>
+<div class="d-flex justify-content-center align-items-center" style="min-height: 100vh;">
+    <div class="col-md-6 col-sm-10 col-12">
+        <div class="text-center mb-3">
+            <!-- Imagen sin bordes redondeados y con sombra -->
+            <img src="~/images/ventalib.jpg" class="img-fluid" style="box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1); border-radius: 20px;" alt="Imagen de venta" />
+
+        </div>
+        <div class="card shadow-lg" style="border-radius: 15px;">
+            <div class="card-header text-center" style="background-color: #28a745; color: white; border-top-left-radius: 15px; border-top-right-radius: 15px;">
+                <h2 style="margin: 0;">¡Gracias!</h2>
             </div>
-            <div class=" card-body text-center">
-                <h4 class=" text-success">
-                    Su pedido fue registrado en nuestro sistema,
+            <div class="card-body text-center">
+                <h4 style="color: #28a745; margin-bottom: 20px;">
+                    Su pedido fue registrado en nuestro sistema,<br>
                     pronto uno de nuestros asesores se comunicará con usted.
                 </h4>
             </div>
-            <div class=" card-footer text-center">
-                <a asp-action="Index" class="mt-2 btn-sm btn-outline-success">Inicio</a>
+            <div class="card-footer text-center" style="border-bottom-left-radius: 15px; border-bottom-right-radius: 15px;">
+                <a asp-action="Index" class="btn btn-outline-success btn-sm" style="padding: 10px 20px; border-radius: 30px;">Inicio</a>
             </div>
         </div>
     </div>
