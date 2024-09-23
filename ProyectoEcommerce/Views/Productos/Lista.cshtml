@@ -17,9 +17,9 @@
             max-width: 200px; /* Ajusta este valor según el espacio disponible */
         }
 
-            .table td .truncate-description.expanded {
-                white-space: normal;
-            }
+        .table td .truncate-description.expanded {
+            white-space: normal;
+        }
 
         .show-more {
             color: blue;
@@ -75,10 +75,10 @@
                                     <img src="@item.URLFoto" width="100" height="100" class="img-fluid" />
                                 </td>
                                 <td>
-                                    <a onclick="showInPopup('@Url.Action("Editar", "Productos", new { id = item.Id }, Context.Request.Scheme)', '')" class="btn btn-outline-warning btn-sm">
+                                    <a onclick="return false;" class="btn btn-outline-warning btn-sm">
                                         <i class="fa fa-pencil-alt"></i>
                                     </a>
-                                    <button data-id="@item.Id" class="btn btn-outline-danger btn-sm deleteItem" data-bs-toggle="modal" data-bs-target="#deleteDialog">
+                                    <button onclick="return false;" class="btn btn-outline-danger btn-sm deleteItem">
                                         <i class="fa fa-trash"></i>
                                     </button>
                                 </td>
@@ -101,19 +101,32 @@
 
     <script>
         $(document).ready(function () {
-            $('#producto').DataTable({
+            var table = $('#producto').DataTable({
+                ordering: false, // Deshabilita el ordenamiento
                 responsive: true,
                 language: {
                     url: "https://cdn.datatables.net/plug-ins/1.11.5/i18n/es-ES.json"
-                }
+                },
+                searching: true // Muestra el cuadro de búsqueda
             });
 
-            $('.show-more').click(function () {
-                $(this).siblings('.truncate-description').toggleClass('expanded');
-                $(this).text($(this).text() === 'Ver más' ? 'Ver menos' : 'Ver más');
+            // Enlaza el evento 'click' para '.show-more' en el evento 'draw' de DataTables
+            $('#producto').on('draw.dt', function () {
+                $('.show-more').off('click').on('click', function () {
+                    $(this).siblings('.truncate-description').toggleClass('expanded');
+                    $(this).text($(this).text() === 'Ver más' ? 'Ver menos' : 'Ver más');
+                });
+            });
+
+            // Llama al evento 'draw' al cargar por primera vez
+            table.draw();
+
+            // Deshabilitar funcionalidad de eliminación y edición
+            $('.deleteItem, .btn-outline-warning').on('click', function (event) {
+                event.preventDefault(); // Previene la acción por defecto
+                event.stopPropagation(); // Detiene la propagación del evento
+                return false; // Previene cualquier otra acción
             });
         });
-
-            sc_deleteDialog.openModal('deleteItem', true, 'btnYesDelete', '/Productos/Eliminar/', false);
     </script>
 }
