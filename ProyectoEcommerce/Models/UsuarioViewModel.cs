@@ -24,5 +24,11 @@ namespace ProyectoEcommerce.Models
         [StringLength(20, MinimumLength = 6, ErrorMessage = "El campo {0} debe tener entre {2} y {1} carácteres.")]
         public string PasswordConfirm { get; set; }
 
+        [Display(Name = "Teléfono")]
+        [Phone(ErrorMessage = "Debes ingresar un número de teléfono válido.")]
+        [MaxLength(9, ErrorMessage = "El número de teléfono no puede exceder los {1} caracteres.")]
+        [Required(ErrorMessage = "El número de teléfono es obligatorio.")]
+        public override string PhoneNumber { get; set; }
+
     }
 }

@@ -24,14 +24,14 @@
     </div>
 </div>
 
-<!-- Formulario de búsqueda -->
 <form class="search-form mb-4">
     <label for="search" style="color: white;">Buscar por nombre o categoría:</label>
     <input type="text" id="search" name="SearchString" class="form-control" value="@ViewData["CurrentFilter"]" />
     <div class="d-grid gap-2">
-        <button type="button" class="btn btn-info btn-sm custom-button" onclick="return false;">Buscar</button>
-        <button type="button" class="btn btn-success btn-sm custom-button" onclick="return false;">Ver Todos los Libros</button>
-
+        <!-- Botón Buscar -->
+        <button type="submit" class="btn btn-info btn-sm custom-button">Buscar</button>
+        <!-- Botón para Ver Todos los Libros -->
+        <a href="@Url.Action("Index")" class="btn btn-success btn-sm custom-button">Ver Todos los Libros</a>
     </div>
 </form>
 
@@ -45,7 +45,6 @@
         </a>
     </div>
 }
-
 
 
 <!-- Listado de productos -->

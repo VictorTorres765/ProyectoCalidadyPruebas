@@ -2,7 +2,9 @@
 
 @{
     ViewData["Title"] = "Carrito";
-    Layout = "_Layout"; ;
+    //Layout = "_VerCarrito"; 
+    //Layout = null;
+
 }
 
 @section Estilos {
@@ -94,13 +96,11 @@
                                     @*originaldisminuir
                                     REQUERIMIENTO DE LA SEMANA 8 *@
                                     <a onclick="showInPopup('@Url.Action("DisminuirCantidad", "Home", new { id = item.Id }, Context.Request.Scheme)' , '')" class="btn btn-outline-danger">-</a> 
-                                    @*<a class="btn btn-outline-danger">-</a> <!-- Botón sin funcionalidad -->*@
                                 </td>
                                 <td class="text-center align-middle">@Html.DisplayFor(modelItem => item.Cantidad)</td>
                                 <td class="text-center align-middle">
                                     @* REQUERIMIENTO DE LA SEMANA 8 *@
                                     <a onclick="showInPopup('@Url.Action("IncrementarCantidad", "Home", new { id = item.Id }, Context.Request.Scheme)' , '')" class="btn btn-outline-success">+</a> 
-                                    <a class="btn btn-outline-success">+</a> <!-- Botón sin funcionalidad -->
                                 </td>
                                 <td class="text-center align-middle">@Html.DisplayFor(modelItem => item.Total)</td>
                                 <td class="text-center align-middle">

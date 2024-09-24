@@ -1,6 +1,6 @@
 ﻿@model IEnumerable<ProyectoEcommerce.Models.Entidades.Categoria>
 @{
-    ViewData["Title"] = "Lista";
+    ViewData["Title"] = "Lista de Categorías";
 }
 
 @section Estilos {
@@ -8,28 +8,28 @@
 }
 
 @if (TempData["ALertMessage"] != null)
-
 {
-    <div class="alert alert-success">
-        <strong>Ok!!---</strong>@TempData["AlertMessage"]
+    <div class="alert alert-success alert-dismissible fade show" role="alert">
+        <strong>Éxito!</strong> @TempData["ALertMessage"]
+        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
     </div>
 }
 
-<p>
-    <a onclick="showInPopup('@Url.Action("Crear", "Categorias", new { id = 0 }, Context.Request.Scheme)' , '')"
-       class="btn btn-sm btn-primary text-white">
-        <i class="fa fa-plus-circle fa-beat"></i> Agregar una categoria
+<p class="mb-4">
+    <a onclick="showInPopup('@Url.Action("Crear", "Categorias", new { id = 0 }, Context.Request.Scheme)', '')"
+       class="btn btn-primary btn-sm text-white">
+        <i class="fa fa-plus-circle fa-beat"></i> Agregar Categoría
     </a>
 </p>
 
 <div class="col-12">
-    <div class="card">
-        <div class="card-header text-center">
-            <h5>Lista de Categorias</h5>
+    <div class="card shadow-sm">
+        <div class="card-header text-center bg-primary text-white">
+            <h5 class="mb-0">Lista de Categorías</h5>
         </div>
         <div class="card-body">
-            <table id="categoria" class="table table-hover table-responsive table-striped w-100">
-                <thead>
+            <table id="categoria" class="table table-hover table-striped table-bordered w-100">
+                <thead class="table-dark">
                     <tr>
                         <th scope="col" style="width: 5%;">#</th>
                         <th scope="col" style="width: 70%;">Nombre</th>
@@ -38,13 +38,12 @@
                 </thead>
                 <tbody>
                     @foreach (var item in Model)
-
                     {
                         <tr>
                             <th scope="row">@item.Id</th>
                             <td>@Html.DisplayFor(modelItem => item.Nombre)</td>
                             <td>
-                                <a onclick="showInPopup('@Url.Action("Editar", "Categorias", new { id = item.Id }, Context.Request.Scheme)' , '')"
+                                <a onclick="showInPopup('@Url.Action("Editar", "Categorias", new { id = item.Id }, Context.Request.Scheme)', '')"
                                    class="btn btn-outline-warning btn-sm me-1">
                                     <i class="fa fa-pencil-alt fa-beat"></i>
                                 </a>
