@@ -155,7 +155,8 @@ namespace ProyectoEcommerce.Controllers
 
             return View(model);
         }
-
+        //SI LA FUNCIONALIDAD DEL CARRITO AUMENTAR CANTIDAD ESTA MAL
+        //REGRESAR EL BOTÓN COMENTADO Y ELIMINAR EL NEUVO BOTÓN
         public async Task<IActionResult> DisminuirCantidad(int? id)
         {
             if (id == null)
@@ -175,10 +176,13 @@ namespace ProyectoEcommerce.Controllers
                 _context.VentasTemporales.Update(ventaTemporal);
                 await _context.SaveChangesAsync();
             }
-
-            return RedirectToAction(nameof(VerCarrito));
+            //return RedirectToAction(nameof(VerCarrito));
+            //BORRAR EL DE ABAJO Y REGRESAR EL DE ARRIBA SI HAY PROBLEMAS
+            return RedirectToAction(nameof(VerCarrito), new { layout = true });
         }
 
+        //SI LA FUNCIONALIDAD DEL CARRITO AUMENTAR CANTIDAD ESTA MAL
+        //REGRESAR EL BOTÓN COMENTADO Y ELIMINAR EL NEUVO BOTÓN
         public async Task<IActionResult> IncrementarCantidad(int? id)
         {
             if (id == null)
@@ -195,10 +199,13 @@ namespace ProyectoEcommerce.Controllers
             ventaTemporal.Cantidad++;
             _context.VentasTemporales.Update(ventaTemporal);
             await _context.SaveChangesAsync();
-
-            return RedirectToAction(nameof(VerCarrito));
+            //return RedirectToAction(nameof(VerCarrito));
+            //BORRAR EL DE ABAJO Y REGRESAR EL DE ARRIBA SI HAY PROBLEMAS
+            return RedirectToAction(nameof(VerCarrito), new { layout = true });
         }
 
+        //SI LA FUNCIONALIDAD DEL CARRITO DISMIUR CANTIDAD ESTA MAL
+        //REGRESAR EL BOTÓN COMENTADO Y ELIMINAR EL NEUVO BOTÓN
         public async Task<IActionResult> Eliminar(int? id)
         {
             if (id == null)
@@ -214,7 +221,9 @@ namespace ProyectoEcommerce.Controllers
 
             _context.VentasTemporales.Remove(ventaTemporal);
             await _context.SaveChangesAsync();
-            return RedirectToAction(nameof(VerCarrito));
+            //return RedirectToAction(nameof(VerCarrito));
+            //BORRAR EL DE ABAJO Y REGRESAR EL DE ARRIBA SI HAY PROBLEMAS
+            return RedirectToAction(nameof(VerCarrito), new { layout = true });
         }
 
         [Authorize]
