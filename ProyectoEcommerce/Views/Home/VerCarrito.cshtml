@@ -1,11 +1,31 @@
-﻿@model ProyectoEcommerce.Models.CarritoViewModel
-
+﻿@using Azure.Core
+<!--ESTE ES EL CÓDIGO ORIGINAL, REGRESARLO SI HAY PROBLEMAS EN BOTONES
+    Y ACTUALIZACIÓN CUANDO NO HAY SUFICIENTE STOCK, ADEMAS LAS OTRAS
+    FUNCIONALIDADES ESTÁN EN EL HOMECONTROLLER
+-->
+@* @model ProyectoEcommerce.Models.CarritoViewModel
 @{
     ViewData["Title"] = "Carrito";
-    //Layout = "_VerCarrito"; 
     //Layout = null;
+} *@
 
+@model ProyectoEcommerce.Models.CarritoViewModel
+@{
+    ViewData["Title"] = "Carrito";
+
+    // Si la condición del layout no está explícita o es nula, entonces por defecto usamos el layout
+    bool usarLayout = Context.Request.Query["layout"] == "true" || !Context.Request.Query.ContainsKey("layout");
+
+    if (usarLayout)
+    {
+        Layout = "_Layout"; // Usar el layout
+    }
+    else
+    {
+        Layout = null; // No usar layout solo si la condición layout=false está presente
+    }
 }
+
 
 @section Estilos {
     <link href="https://cdn.datatables.net/1.13.6/css/jquery.dataTables.min.css" rel="stylesheet" />
@@ -32,8 +52,6 @@
         </div>
     </div>
 </div>
-
-
 
 
 <div class="row mb-4">
@@ -114,7 +132,7 @@
                     </tbody>
                 </table>
             </div>
-
+            
         </div>
     </div>
 </div>
@@ -126,7 +144,7 @@
         $(document).ready(function () {
             $('#myTable').DataTable({
                 "language": {
-                    url: "https://cdn.datatables.net/plug-ins/1.11.5/i18n/es-ES.json"
+                    url: "https://cdn.datatables.net/plug-ins/1.11.5/i18n/es-ES.json" 
                 },
             });
         });

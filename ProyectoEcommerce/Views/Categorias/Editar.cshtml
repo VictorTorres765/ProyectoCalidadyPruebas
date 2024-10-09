@@ -13,9 +13,14 @@
             <form asp-action="Editar">
                 <div asp-validation-summary="ModelOnly" class="text-danger"></div>
                 <input type="hidden" asp-for="Id" />
-                <div class="form-group">
+                @* <div class="form-group">
                     <label></label>
                     <input asp-for="Nombre" class="form-control" placeholder=" Nombre" />
+                    <span asp-validation-for="Nombre" class="text-danger"></span>
+                </div> *@
+                <div class="form-group">
+                    <label for="Nombre">Nombre</label>
+                    <input asp-for="Nombre" class="form-control" placeholder="Nombre" id="Nombre" />
                     <span asp-validation-for="Nombre" class="text-danger"></span>
                 </div>
                 <div class=" card-footer ">
@@ -28,6 +33,17 @@
         </div>
     </div>
 </div>
+<script>
+    document.getElementById("Nombre").addEventListener("input", function (e) {
+        var value = e.target.value;
+
+        // Permitir solo letras (incluyendo letras con tildes)
+        value = value.replace(/[^a-zA-ZáéíóúÁÉÍÓÚñÑ\s]/g, '');
+
+        // Asignar el nuevo valor al campo de entrada
+        e.target.value = value;
+    });
+</script>
 
 
 

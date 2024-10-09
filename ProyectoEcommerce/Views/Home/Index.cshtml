@@ -47,7 +47,6 @@
 }
 
 
-<!-- Listado de productos -->
 <div class="row">
     @foreach (var producto in Model.Productos)
     {
@@ -63,12 +62,22 @@
                 <div class="card-footer text-center">
                     <a onclick="showInPopup('@Url.Action("Detalles", "Home", new { id = producto.Id }, Context.Request.Scheme)', '')"
                        class="btn btn-info btn-sm">Ver Detalles</a>
-                    <a asp-action="AgregarAlCarrito" asp-route-id="@producto.Id" class="btn btn-success btn-sm">Agregar al carrito</a>
+
+                    @if (producto.Inventario > 0)
+                    {
+                        <a asp-action="AgregarAlCarrito" asp-route-id="@producto.Id" class="btn btn-success btn-sm">Agregar al carrito</a>
+                    }
+                    else
+                    {
+                        <div class="btn btn-secondary disabled">Pronto!!</div>
+                    }
                 </div>
             </div>
         </div>
     }
 </div>
+
+<!--HASTA AQUI-->
 
 <!-- Modal parcial -->
 <partial name="_MostrarModal" />

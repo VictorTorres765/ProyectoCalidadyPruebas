@@ -24,11 +24,69 @@ namespace ProyectoEcommerce.Controllers
             _servicioVenta = servicioVenta;
         }
 
+        //public async Task<IActionResult> Index(string sortOrder, string currentFilter, string searchString, int? pageNumber)
+        //{
+        //    ViewData["CurrentSort"] = sortOrder;
+        //    ViewData["NameSortParm"] = String.IsNullOrEmpty(sortOrder) ? "NameDesc" : "";
+        //    ViewData["PriceSortParm"] = sortOrder == "Price" ? "PriceDesc" : "Price";
+        //    if (searchString != null)
+        //    {
+        //        pageNumber = 1;
+        //    }
+        //    else
+        //    {
+        //        searchString = currentFilter;
+        //    }
+        //    ViewData["CurrentFilter"] = searchString;
+
+        //    IQueryable<Producto> query = _context.Productos
+        //        .Include(p => p.Categoria)
+        //        .Where(p => p.Inventario > 0);
+
+        //    if (!string.IsNullOrEmpty(searchString))
+        //    {
+        //        query = query
+        //            .Where(p => (p.Nombre.ToLower().Contains(searchString.ToLower()) ||
+        //                        p.Categoria.Nombre.ToLower().Contains(searchString.ToLower())));
+        //    }
+
+        //    switch (sortOrder)
+        //    {
+        //        case "NameDesc":
+        //            query = query.OrderByDescending(p => p.Nombre);
+        //            break;
+        //        default:
+        //            query = query.OrderBy(p => p.Nombre);
+        //            break;
+        //    }
+
+        //    int pageSize = 8;
+
+        //    CatalogoViewModel model = new()
+        //    {
+        //        Productos = await PaginatedList<Producto>.CreateAsync(query, pageNumber ?? 1, pageSize),
+        //        Categorias = await _context.Categorias.ToListAsync(),
+
+        //    };
+
+        //    Usuario usuario = await _servicioUsuario.ObtenerUsuario(User.Identity.Name);
+        //    if (usuario != null)
+        //    {
+        //        model.Cantidad = await _context.VentasTemporales
+        //        .Where(ts => ts.Usuario.Id == usuario.Id)
+        //        .SumAsync(ts => ts.Cantidad);
+        //    }
+
+        //    return View(model);
+        //}
+
+        //ESTE ES EL CODIGO DE 0, SI DA ERROR ELIMINARLO
         public async Task<IActionResult> Index(string sortOrder, string currentFilter, string searchString, int? pageNumber)
         {
             ViewData["CurrentSort"] = sortOrder;
             ViewData["NameSortParm"] = String.IsNullOrEmpty(sortOrder) ? "NameDesc" : "";
             ViewData["PriceSortParm"] = sortOrder == "Price" ? "PriceDesc" : "Price";
+
             if (searchString != null)
             {
                 pageNumber = 1;
@@ -37,17 +95,17 @@ namespace ProyectoEcommerce.Controllers
             {
                 searchString = currentFilter;
             }
+
             ViewData["CurrentFilter"] = searchString;
 
+            // Quitamos el filtro de inventario para que todos los productos aparezcan
             IQueryable<Producto> query = _context.Productos
-                .Include(p => p.Categoria)
-                .Where(p => p.Inventario > 0);
+                .Include(p => p.Categoria);
 
             if (!string.IsNullOrEmpty(searchString))
             {
-                query = query
-                    .Where(p => (p.Nombre.ToLower().Contains(searchString.ToLower()) ||
-                                p.Categoria.Nombre.ToLower().Contains(searchString.ToLower())));
+                query = query.Where(p => p.Nombre.ToLower().Contains(searchString.ToLower()) ||
+                                         p.Categoria.Nombre.ToLower().Contains(searchString.ToLower()));
             }
 
             switch (sortOrder)
@@ -66,19 +124,19 @@ namespace ProyectoEcommerce.Controllers
             {
                 Productos = await PaginatedList<Producto>.CreateAsync(query, pageNumber ?? 1, pageSize),
                 Categorias = await _context.Categorias.ToListAsync(),
-
             };
 
             Usuario usuario = await _servicioUsuario.ObtenerUsuario(User.Identity.Name);
             if (usuario != null)
             {
                 model.Cantidad = await _context.VentasTemporales
-                .Where(ts => ts.Usuario.Id == usuario.Id)
-                .SumAsync(ts => ts.Cantidad);
+                    .Where(ts => ts.Usuario.Id == usuario.Id)
+                    .SumAsync(ts => ts.Cantidad);
             }
 
             return View(model);
         }
+
 
         public async Task<IActionResult> AgregarAlCarrito(int? id)
         {
@@ -155,7 +213,8 @@ namespace ProyectoEcommerce.Controllers
 
             return View(model);
         }
-
+        //SI LA FUNCIONALIDAD DEL CARRITO AUMENTAR CANTIDAD ESTA MAL
+        //REGRESAR EL BOTÓN COMENTADO Y ELIMINAR EL NEUVO BOTÓN
         public async Task<IActionResult> DisminuirCantidad(int? id)
         {
             if (id == null)
@@ -175,10 +234,13 @@ namespace ProyectoEcommerce.Controllers
                 _context.VentasTemporales.Update(ventaTemporal);
                 await _context.SaveChangesAsync();
             }
-
-            return RedirectToAction(nameof(VerCarrito));
+            //return RedirectToAction(nameof(VerCarrito));
+            //BORRAR EL DE ABAJO Y REGRESAR EL DE ARRIBA SI HAY PROBLEMAS
+            return RedirectToAction(nameof(VerCarrito), new { layout = true });
         }
 
+        //SI LA FUNCIONALIDAD DEL CARRITO AUMENTAR CANTIDAD ESTA MAL
+        //REGRESAR EL BOTÓN COMENTADO Y ELIMINAR EL NEUVO BOTÓN
         public async Task<IActionResult> IncrementarCantidad(int? id)
         {
             if (id == null)
@@ -195,10 +257,13 @@ namespace ProyectoEcommerce.Controllers
             ventaTemporal.Cantidad++;
             _context.VentasTemporales.Update(ventaTemporal);
             await _context.SaveChangesAsync();
-
-            return RedirectToAction(nameof(VerCarrito));
+            //return RedirectToAction(nameof(VerCarrito));
+            //BORRAR EL DE ABAJO Y REGRESAR EL DE ARRIBA SI HAY PROBLEMAS
+            return RedirectToAction(nameof(VerCarrito), new { layout = true });
         }
 
+        //SI LA FUNCIONALIDAD DEL CARRITO DISMIUR CANTIDAD ESTA MAL
+        //REGRESAR EL BOTÓN COMENTADO Y ELIMINAR EL NEUVO BOTÓN
         public async Task<IActionResult> Eliminar(int? id)
         {
             if (id == null)
@@ -214,7 +279,9 @@ namespace ProyectoEcommerce.Controllers
 
             _context.VentasTemporales.Remove(ventaTemporal);
             await _context.SaveChangesAsync();
-            return RedirectToAction(nameof(VerCarrito));
+            //return RedirectToAction(nameof(VerCarrito));
+            //BORRAR EL DE ABAJO Y REGRESAR EL DE ARRIBA SI HAY PROBLEMAS
+            return RedirectToAction(nameof(VerCarrito), new { layout = true });
         }
 
         [Authorize]

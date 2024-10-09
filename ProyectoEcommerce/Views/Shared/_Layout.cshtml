@@ -52,9 +52,7 @@
                             @if (User.Identity.IsAuthenticated && User.IsInRole("Cliente"))
                             {
                                 <li class="nav-item">
-                                    @* original
-                                    <a class="nav-link text-dark" asp-area="" asp-controller="Ventas" asp-action="MisCompras">Mis Compras</a> *@
-                                    <a class="nav-link text-dark" asp-area="" asp-controller="Ventas" asp-action="Error404">Mis Compras</a>
+                                    <a class="nav-link text-dark" asp-area="" asp-controller="Ventas" asp-action="MisCompras">Mis Compras</a>
                                     <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Index">Catalogo</a>
                                 </li>
                             }

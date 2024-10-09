@@ -31,20 +31,30 @@ namespace ProyectoEcommerce.Controllers
         [HttpPost]
         public async Task<IActionResult> Crear(Categoria categoria)
         {
+            // Validar si el modelo cumple con las reglas definidas (como el campo Nombre que solo permite letras)
             if (ModelState.IsValid)
             {
                 try
                 {
+                    // Guardar la categoría si todas las validaciones pasaron
                     _context.Add(categoria);
                     await _context.SaveChangesAsync();
-                    TempData["AlertMessage"] = "Categoria creada exitosamente!!!";
+                    TempData["AlertMessage"] = "Categoría creada exitosamente!!!";
                     return RedirectToAction("Lista");
                 }
                 catch
                 {
-                    ModelState.AddModelError(String.Empty, "Ha ocurrido un error");
+                    // Manejo de errores si ocurre una excepción al guardar
+                    ModelState.AddModelError(string.Empty, "La categoría es duplicada, ingresa una correcta");
                 }
             }
+            else
+            {
+                // Enviar un mensaje de alerta si el modelo no es válido
+                ModelState.AddModelError(string.Empty, "Por favor, corrija los errores y complete todos los campos requeridos.");
+            }
+
+            // Si el modelo no es válido, devolver la vista con los datos del formulario para correcciones
             return View(categoria);
         }
 
