@@ -20,7 +20,7 @@ describe('Prueba de flujo - Creación de Libro', () => {
         // Hacer clic en el botón de inicio de sesión
         cy.get('.btn-primary').click();
 
-        // Abrir el menú de navegación nuevamente
+        // Abrir el menú de navegación nuevamentes
         cy.get('.navbar-toggler-icon').click();
 
         // Verificar que el nombre de usuario esté presente
