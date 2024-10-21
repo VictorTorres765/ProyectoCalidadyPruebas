@@ -8,3 +8,16 @@ Cypress.Commands.add('deleteCategory', () => {
     // Confirm the deletion by clicking the "Yes" button
     cy.get('#btnYesDelete').should('be.visible').click();
 });
+
+//ELIMINAR UN LIBRO CREADO RECIENTEMENTE  (CREAR-LIBRO)
+Cypress.Commands.add('eliminarLibroReciente', () => {
+    // Hacer clic en el enlace de paginación "2"
+    cy.contains('2').click();
+
+    // Hacer clic en el botón de eliminar del cuarto elemento en la fila par
+    cy.get('.even:nth-child(4) .btn-outline-danger').click();
+
+    // Confirmar la eliminación haciendo clic en el botón "Sí" en el modal
+    cy.get('#btnYesDelete').click();
+});
+

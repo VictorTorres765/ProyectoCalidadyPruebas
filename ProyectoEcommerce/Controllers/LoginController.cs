@@ -71,38 +71,7 @@ namespace ProyectoEcommerce.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        //CODIGO ORIGINAL DE LA FOTO, SI HAY ERROR REGRESARLO A LA NORMALIDAD EN CREAR USUARIO GENERAL
-        //public async Task<IActionResult> Registro(UsuarioViewModel model, IFormFile Imagen)
-        //{
-        //    if (ModelState.IsValid)
-        //    {
-        //        Stream image = Imagen.OpenReadStream();
-        //        string urlImagen = await _servicioImagen.SubirImagen(image, Imagen.FileName);
-
-        //        model.URLFoto = urlImagen;
-
-        //        Usuario usuario = await _servicioUsuario.CrearUsuario(model);
-        //        if (usuario == null)
-        //        {
-        //            ModelState.AddModelError(string.Empty, "Este correo ya está siendo usado.");
-        //            return View(model);
-        //        }
-        //        LoginViewModel loginViewModel = new()
-        //        {
-        //            Password = model.Password,
-        //            RememberMe = false,
-        //            Username = model.Username
-        //        };
-        //        var result = await _servicioUsuario.IniciarSesion(loginViewModel);
-        //        if (result.Succeeded)
-        //        {
-        //            return RedirectToAction("Index", "Home");
-        //        }
-        //    }
-        //    return View(model);
-        //}
-
-        //CÓDIGO PARA LA IMAGEN MODIFICADO, SI HAY ERROR REGRESARLO A LA NORMALIDAD
+        
         public async Task<IActionResult> Registro(UsuarioViewModel model, IFormFile Imagen)
         {
             if (ModelState.IsValid)
@@ -169,28 +138,7 @@ namespace ProyectoEcommerce.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        //EDITAR USUARIO DENTRO DE LA MISMA CUENTA DEL USUARIO(CLIENTE) CON IMAGEN 
-        //ESTE ES EL CODIGO ORIGINAL, REGRESAR SI HAY ERRORES EN LA CORRECIÓN
-        //public async Task<IActionResult> EditarUsuario(Usuario model, IFormFile Imagen)
-        //{
-        //    if (ModelState.IsValid)
-        //    {                           
-        //        Usuario usuario = await _servicioUsuario.ObtenerUsuario(User.Identity.Name);
-        //        usuario.Nombre = model.Nombre;
-        //        usuario.PhoneNumber = model.PhoneNumber;
-
-        //        Stream image = Imagen.OpenReadStream();
-        //        string urlImagen = await _servicioImagen.SubirImagen(image, Imagen.FileName);
-        //        usuario.URLFoto = urlImagen;
-
-        //        await _servicioUsuario.ActualizarUsuario(usuario);
-        //        return RedirectToAction("Index", "Home");
-        //    }
-        //    return View(model);
-        //}
-        //HASTA AQUÍ
-
-        //DESDE AQUI EL CONTROLAR LA IMAGEN NO NECESARIA, BORRAR SI DA CONFLICTO NO SE RQUIERE DE LA IMAGEN 
+        
         public async Task<IActionResult> EditarUsuario(Usuario model, IFormFile Imagen)
         {
             if (ModelState.IsValid)

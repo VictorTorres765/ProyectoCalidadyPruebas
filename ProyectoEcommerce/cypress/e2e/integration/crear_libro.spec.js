@@ -27,12 +27,17 @@ describe('Prueba de flujo - Creación de Libro', () => {
         cy.get('.nav-link > strong').should('contain.text', 'Hola! admin@gmail.com');
 
         // Hacer clic en el dropdown del menú de usuario
-        cy.get('#offcanvasNavbarDropdown').click();
+        cy.get('#offcanvasNavbarDropdown').should('be.visible').click();
 
         // Hacer clic en el enlace de "Libros"
-        cy.contains('Libros').click();
+        cy.get('ul.dropdown-menu.show').within(() => {
+            cy.contains('strong', 'Libros').click({ force: true });
+        });
 
-        // Verificar que la lista de libros esté presente
+        // Verificar que el encabezado de la lista de libros esté presente
+        cy.get('.card-header > h5').should('be.visible');
+
+        // Verificar que el texto del encabezado sea "Lista de Libros"
         cy.get('.card-header > h5').should('contain.text', 'Lista de Libros');
 
         // Hacer clic en el botón para crear un nuevo libro
@@ -42,7 +47,7 @@ describe('Prueba de flujo - Creación de Libro', () => {
         cy.get('.col-md-12:nth-child(1) h5').should('contain.text', 'Crear Libro');
 
         // Ingresar el nombre del libro
-        cy.get('#Nombre').type('LibroPrueba');
+        cy.get('#Nombre').type('ZZLibroCypress');
 
         // Seleccionar la categoría
         cy.get('#CategoriaId').select('3');
@@ -51,15 +56,20 @@ describe('Prueba de flujo - Creación de Libro', () => {
         cy.get('#Descripcion').type('Descripcion del libro de prueba');
 
         // Ingresar el precio
-        cy.get('#Precio').type('62.10');
+        cy.get('#Precio').clear().type('81.90');
 
         // Ingresar la cantidad en inventario
-        cy.get('#Inventario').type('27');
+        cy.get('#Inventario').clear().type('34');
 
         // Cargar una imagen
-        cy.get('input[name="Imagen"]').attachFile('C:\\Users\\Denys\\Pictures\\Imágenes Libros\\corazon.webp');
+        cy.get('input[name="Imagen"]').attachFile('sea.jpg');
 
         // Hacer clic en el botón de guardar
         cy.get('.btn-success').click();
+
+        //Eliminar el nuevo libro para no crear interferecias dentro de la prueba nuevamente
+        cy.wait(10000);
+        //Con eñl tiempo ir a la pestaña 2 y verificar 
+        cy.eliminarLibroReciente();
     });
 });

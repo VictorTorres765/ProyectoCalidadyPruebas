@@ -24,63 +24,6 @@ namespace ProyectoEcommerce.Controllers
             _servicioVenta = servicioVenta;
         }
 
-        //public async Task<IActionResult> Index(string sortOrder, string currentFilter, string searchString, int? pageNumber)
-        //{
-        //    ViewData["CurrentSort"] = sortOrder;
-        //    ViewData["NameSortParm"] = String.IsNullOrEmpty(sortOrder) ? "NameDesc" : "";
-        //    ViewData["PriceSortParm"] = sortOrder == "Price" ? "PriceDesc" : "Price";
-        //    if (searchString != null)
-        //    {
-        //        pageNumber = 1;
-        //    }
-        //    else
-        //    {
-        //        searchString = currentFilter;
-        //    }
-        //    ViewData["CurrentFilter"] = searchString;
-
-        //    IQueryable<Producto> query = _context.Productos
-        //        .Include(p => p.Categoria)
-        //        .Where(p => p.Inventario > 0);
-
-        //    if (!string.IsNullOrEmpty(searchString))
-        //    {
-        //        query = query
-        //            .Where(p => (p.Nombre.ToLower().Contains(searchString.ToLower()) ||
-        //                        p.Categoria.Nombre.ToLower().Contains(searchString.ToLower())));
-        //    }
-
-        //    switch (sortOrder)
-        //    {
-        //        case "NameDesc":
-        //            query = query.OrderByDescending(p => p.Nombre);
-        //            break;
-        //        default:
-        //            query = query.OrderBy(p => p.Nombre);
-        //            break;
-        //    }
-
-        //    int pageSize = 8;
-
-        //    CatalogoViewModel model = new()
-        //    {
-        //        Productos = await PaginatedList<Producto>.CreateAsync(query, pageNumber ?? 1, pageSize),
-        //        Categorias = await _context.Categorias.ToListAsync(),
-
-        //    };
-
-        //    Usuario usuario = await _servicioUsuario.ObtenerUsuario(User.Identity.Name);
-        //    if (usuario != null)
-        //    {
-        //        model.Cantidad = await _context.VentasTemporales
-        //        .Where(ts => ts.Usuario.Id == usuario.Id)
-        //        .SumAsync(ts => ts.Cantidad);
-        //    }
-
-        //    return View(model);
-        //}
-
-        //ESTE ES EL CODIGO DE 0, SI DA ERROR ELIMINARLO
         public async Task<IActionResult> Index(string sortOrder, string currentFilter, string searchString, int? pageNumber)
         {
             ViewData["CurrentSort"] = sortOrder;

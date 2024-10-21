@@ -69,10 +69,10 @@ describe('Test de agregar categorías ', () => {
         // Verificar que el texto de la alerta es "Éxito! Categoría creada exitosamente!!!"
         cy.get('.alert').should('contain.text', 'Éxito! Categoría creada exitosamente');
 
-        // Esperar 10 segundos antes de continuar
+        // Esperar 10 segundos antes de continuar e ir a la pestaña 2 para verificar
         cy.wait(10000);
 
-        // Selenium IDE commands translated to Cypress
+        // Eliminar
         cy.deleteCategory();
     });
 });
