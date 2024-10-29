@@ -47,13 +47,17 @@ describe('Prueba de flujo - Creación de Libro', () => {
         cy.get('.col-md-12:nth-child(1) h5').should('contain.text', 'Crear Libro');
 
         // Ingresar el nombre del libro
-        cy.get('#Nombre').type('ZZLibroCypress');
+        cy.get('#Nombre').invoke('val', 'ZZLibroCypress').trigger('input');
+
 
         // Seleccionar la categoría
         cy.get('#CategoriaId').select('3');
 
-        // Ingresar la descripción del libro
-        cy.get('#Descripcion').type('Descripcion del libro de prueba');
+        // Ingresar la descripción del libro asegurando que el campo esté visible y listo para la interacción
+        cy.get('#Descripcion')
+            .should('be.visible')  // Verificar que el campo esté visible
+            .type('Descripcion del libro de prueba', { force: true });  // Forzar la acción en caso de algún bloqueo visual
+
 
         // Ingresar el precio
         cy.get('#Precio').clear().type('81.90');
@@ -67,8 +71,12 @@ describe('Prueba de flujo - Creación de Libro', () => {
         // Hacer clic en el botón de guardar
         cy.get('.btn-success').click();
 
+        // Esperar hasta que el enlace 'linkText=2' esté visible y hacer clic en él
+        // Hacer clic en el botón con el texto '2'
+        cy.contains('a', '2').click();
+
         //Eliminar el nuevo libro para no crear interferecias dentro de la prueba nuevamente
-        cy.wait(10000);
+        cy.wait(2000);
         //Con eñl tiempo ir a la pestaña 2 y verificar 
         cy.eliminarLibroReciente();
     });

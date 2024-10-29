@@ -46,15 +46,11 @@ namespace ProyectoEcommerce.Controllers
                                                cantidad = grupo.Count(),
                                            }).ToList();
 
-
-
             return StatusCode(StatusCodes.Status200OK, Lista);
         }
 
         public IActionResult ResumenProducto()
         {
-
-
             List<ProductosViewModel> Lista = (from tbdetalleventa in _context.DetalleVentas
                                               group tbdetalleventa by tbdetalleventa.Producto.Nombre into grupo
                                               orderby grupo.Count() descending
@@ -63,8 +59,6 @@ namespace ProyectoEcommerce.Controllers
                                                   producto = grupo.Key,
                                                   cantidad = grupo.Count(),
                                               }).Take(4).ToList();
-
-
 
             return StatusCode(StatusCodes.Status200OK, Lista);
         }

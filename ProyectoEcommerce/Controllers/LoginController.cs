@@ -9,7 +9,6 @@ namespace ProyectoEcommerce.Controllers
 {
     public class LoginController : Controller
     {
-
         private readonly IServicioUsuario _servicioUsuario;
         private readonly IServicioLista _servicioLista;
         private readonly IServicioImagen _servicioImagen;

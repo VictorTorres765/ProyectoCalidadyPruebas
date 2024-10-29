@@ -3,6 +3,7 @@ describe('Prueba de registro de usuario', () => {
         // Devuelve false para prevenir que Cypress falle la prueba
         return false;
     });
+
     it('Registrar un nuevo usuario', () => {
         // Abrir la página web
         cy.visit('https://localhost:7157');
@@ -22,24 +23,23 @@ describe('Prueba de registro de usuario', () => {
         // Verificar el texto "Registrar Usuario"
         cy.get('h4').contains('Registrar Usuario');
 
-        // Completar el formulario de registro
-        cy.get('#Username').type('cypresst2@gmail.com');
-        cy.get('#Password').type('123456');
-        cy.get('#PasswordConfirm').type('123456');
+        // Generar un correo y nombre de usuario aleatorio y guardarlos en una variable
+        cy.generateUser().then((user) => {
+            // Completar el formulario de registro con los valores generados
+            cy.get('#Username').type(user.email);
+            cy.get('#Password').type('123456');
+            cy.get('#PasswordConfirm').type('123456');
+            cy.get('#Nombre').type(user.name);
+            cy.get('#PhoneNumber').type('911222618');
 
-        cy.get('#Nombre').type('cypresst2');
-        cy.get('#PhoneNumber').type('911222618');
+            // Hacer clic en el botón de registro
+            cy.get('.btn-sm').click();
 
-        // Subir una imagen de perfil, en este caso es opcional
-        //cy.get('input[name="Imagen"]').attachFile('C:/Users/Denys/Pictures/Imágenes Usuarios/user1sel.jiff');
+            // Hacer clic en el ícono del menú (toggler) para verificar el usuario
+            cy.get('.navbar-toggler-icon').click();
 
-        // Hacer clic en el botón de registro
-        cy.get('.btn-sm').click();
-
-        // Hacer clic en el ícono del menú (toggler) para verificar el usuario
-        cy.get('.navbar-toggler-icon').click();
-
-        // Verificar que el mensaje de bienvenida aparezca
-        cy.get('.nav-link > strong').should('contain.text', 'Hola! cypresst2@gmail.com');
+            // Verificar que el mensaje de bienvenida contenga el correo generado
+            cy.get('.nav-link > strong').should('contain.text', `Hola! ${user.email}`);
+        });
     });
 });

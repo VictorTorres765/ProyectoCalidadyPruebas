@@ -58,7 +58,7 @@ describe('Test de agregar categorías ', () => {
         cy.get('#nombre').should('be.visible').click();
 
         // Escribir "Autobiografía" en el campo de nombre
-        cy.get('#nombre').type('PruebaCypress', { delay: 0 });
+        cy.get('#nombre').type('ZZPruebaCypress', { delay: 0 });
 
         // Hacer clic en el botón de "Crear"
         cy.get('.btn-success').should('be.visible').click();
@@ -69,8 +69,12 @@ describe('Test de agregar categorías ', () => {
         // Verificar que el texto de la alerta es "Éxito! Categoría creada exitosamente!!!"
         cy.get('.alert').should('contain.text', 'Éxito! Categoría creada exitosamente');
 
+        // Esperar hasta que el enlace 'linkText=2' esté visible y hacer clic en él
+        // Hacer clic en el botón con el texto '2'
+        cy.contains('a', '2').click();
+
         // Esperar 10 segundos antes de continuar e ir a la pestaña 2 para verificar
-        cy.wait(10000);
+        cy.wait(1000);
 
         // Eliminar
         cy.deleteCategory();

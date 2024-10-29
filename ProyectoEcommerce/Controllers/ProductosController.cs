@@ -45,7 +45,11 @@ namespace ProyectoEcommerce.Controllers
                 if (Imagen != null)
                 {
                     Stream image = Imagen.OpenReadStream();
-                    string urlimagen = await _servicioImagen.SubirImagen(image, Imagen.FileName);
+                    //Agregue aqui
+                    string uniqueFileName = $"{Guid.NewGuid()}_{Imagen.FileName}";
+                    //Original
+                    //string urlimagen = await _servicioImagen.SubirImagen(image, Imagen.FileName);
+                    string urlimagen = await _servicioImagen.SubirImagen(image, uniqueFileName);
 
                     producto.URLFoto = urlimagen;
                 }
