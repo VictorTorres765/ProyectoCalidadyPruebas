@@ -12,21 +12,34 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
+      # 1. Descargar el código del repositorio
       - name: Check out code
         uses: actions/checkout@v3
 
-      - name: Set up JDK
-        uses: actions/setup-java@v3
+      # 2. Configurar el entorno para .NET
+      - name: Setup .NET
+        uses: actions/setup-dotnet@v3
         with:
-          java-version: '11' # Cambia si tu proyecto requiere otra versión de Java.
+          dotnet-version: '6.0' # Cambia a la versión de .NET que utiliza tu proyecto, como '7.0' o '8.0'.
 
-      - name: Cache SonarCloud packages
-        uses: actions/cache@v3
-        with:
-          path: ~/.sonar/cache
-          key: ${{ runner.os }}-sonar
+      # 3. Restaurar dependencias del proyecto
+      - name: Restore dependencies
+        run: dotnet restore
 
-      - name: SonarCloud Scan
-        uses: SonarSource/sonarcloud-github-action@v2
+      # 4. Compilar el proyecto
+      - name: Build project
+        run: dotnet build --no-restore
+
+      # 5. Instalar SonarScanner para .NET
+      - name: Install SonarScanner for .NET
+        run: dotnet tool install --global dotnet-sonarscanner --version 5.*
+
+      # 6. Ejecutar análisis de SonarCloud
+      - name: Run SonarCloud Analysis
         env:
           SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
+        run: |
+          dotnet sonarscanner begin /k:"VictorTorres765_ProyectoCalidadyPruebas" /o:"victortorres765" /d:sonar.login="${{ secrets.SONAR_TOKEN }}" /d:sonar.host.url="https://sonarcloud.io"
+          dotnet build
+          dotnet sonarscanner end /d:sonar.login="${{ secrets.SONAR_TOKEN }}"
+
