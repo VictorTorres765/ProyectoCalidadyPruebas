@@ -20,7 +20,7 @@ jobs:
       - name: Setup .NET
         uses: actions/setup-dotnet@v3
         with:
-          dotnet-version: '6.0' # Cambia a la versión de .NET que utiliza tu proyecto, como '7.0' o '8.0'.
+          dotnet-version: '7.0' # Cambia a la versión de .NET que utiliza tu proyecto, como '7.0' o '8.0'.
 
       # 3. Restaurar dependencias del proyecto
       - name: Restore dependencies
