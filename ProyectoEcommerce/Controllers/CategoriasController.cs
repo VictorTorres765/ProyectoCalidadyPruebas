@@ -7,10 +7,8 @@ using ProyectoEcommerce.Models.Entidades;
 namespace ProyectoEcommerce.Controllers
 {
     [Authorize(Roles = "Administrador")]
-
     public class CategoriasController : Controller
     {
-
         private readonly EcommerceContext _context;
 
         public CategoriasController(EcommerceContext context)
@@ -20,7 +18,8 @@ namespace ProyectoEcommerce.Controllers
 
         public async Task<IActionResult> Lista()
         {
-            return View(await _context.Categorias.ToListAsync());
+            var categorias = await _context.Categorias.ToListAsync();
+            return View(categorias);
         }
 
         public IActionResult Crear()
@@ -31,30 +30,29 @@ namespace ProyectoEcommerce.Controllers
         [HttpPost]
         public async Task<IActionResult> Crear(Categoria categoria)
         {
-            // Validar si el modelo cumple con las reglas definidas (como el campo Nombre que solo permite letras)
-            if (ModelState.IsValid)
+            if (!ModelState.IsValid)
             {
-                try
-                {
-                    // Guardar la categoría si todas las validaciones pasaron
-                    _context.Add(categoria);
-                    await _context.SaveChangesAsync();
-                    TempData["AlertMessage"] = "Categoría creada exitosamente!!!";
-                    return RedirectToAction("Lista");
-                }
-                catch
-                {
-                    // Manejo de errores si ocurre una excepción al guardar
-                    ModelState.AddModelError(string.Empty, "La categoría es duplicada, ingresa una correcta");
-                }
-            }
-            else
-            {
-                // Enviar un mensaje de alerta si el modelo no es válido
+                // Devolver la vista con un mensaje de error si el modelo no es válido
                 ModelState.AddModelError(string.Empty, "Por favor, corrija los errores y complete todos los campos requeridos.");
+                return View(categoria);
             }
 
-            // Si el modelo no es válido, devolver la vista con los datos del formulario para correcciones
+            try
+            {
+                _context.Add(categoria);
+                await _context.SaveChangesAsync();
+                TempData["AlertMessage"] = "Categoría creada exitosamente!!!";
+                return RedirectToAction("Lista");
+            }
+            catch (DbUpdateException)
+            {
+                ModelState.AddModelError(string.Empty, "La categoría es duplicada, ingresa una correcta.");
+            }
+            catch (Exception)
+            {
+                ModelState.AddModelError(string.Empty, "Ocurrió un error inesperado. Intenta nuevamente.");
+            }
+
             return View(categoria);
         }
 
@@ -70,6 +68,7 @@ namespace ProyectoEcommerce.Controllers
             {
                 return NotFound();
             }
+
             return View(categoria);
         }
 
@@ -78,24 +77,32 @@ namespace ProyectoEcommerce.Controllers
         {
             if (id != categoria.Id)
             {
-                return NotFound();
+                return BadRequest("El ID proporcionado no coincide con el objeto.");
             }
 
-            if (ModelState.IsValid)
+            if (!ModelState.IsValid)
             {
-                try
-                {
-                    _context.Update(categoria);
-                    await _context.SaveChangesAsync();
-                    TempData["AlertMessage"] = "Categoria actualizada exitosamente!!!";
-                    return RedirectToAction("Lista");
-                }
-                catch (Exception ex)
-                {
-
-                    ModelState.AddModelError(ex.Message, "Ocurrio un error al actualizar");
-                }
+                // Si el modelo no es válido, devolvemos la vista con errores
+                ModelState.AddModelError(string.Empty, "Por favor, corrija los errores y complete todos los campos requeridos.");
+                return View(categoria);
             }
+
+            try
+            {
+                _context.Update(categoria);
+                await _context.SaveChangesAsync();
+                TempData["AlertMessage"] = "Categoría actualizada exitosamente!!!";
+                return RedirectToAction("Lista");
+            }
+            catch (DbUpdateConcurrencyException)
+            {
+                ModelState.AddModelError(string.Empty, "El registro fue modificado por otro usuario. Intenta nuevamente.");
+            }
+            catch (Exception)
+            {
+                ModelState.AddModelError(string.Empty, "Ocurrió un error inesperado. Intenta nuevamente.");
+            }
+
             return View(categoria);
         }
 
@@ -106,9 +113,7 @@ namespace ProyectoEcommerce.Controllers
                 return NotFound();
             }
 
-            var categoria = await _context.Categorias
-                .FirstOrDefaultAsync(m => m.Id == id);
-
+            var categoria = await _context.Categorias.FirstOrDefaultAsync(m => m.Id == id);
             if (categoria == null)
             {
                 return NotFound();
@@ -118,11 +123,15 @@ namespace ProyectoEcommerce.Controllers
             {
                 _context.Categorias.Remove(categoria);
                 await _context.SaveChangesAsync();
-                TempData["AlertMessage"] = "Categoria eliminada exitosamente!!!";
+                TempData["AlertMessage"] = "Categoría eliminada exitosamente!!!";
             }
-            catch (Exception ex)
+            catch (DbUpdateException)
             {
-                ModelState.AddModelError(ex.Message, "Ocurrio un error, no se pudo eliminar el registro");
+                ModelState.AddModelError(string.Empty, "No se pudo eliminar el registro porque está siendo utilizado en otra parte del sistema.");
+            }
+            catch (Exception)
+            {
+                ModelState.AddModelError(string.Empty, "Ocurrió un error inesperado. Intenta nuevamente.");
             }
 
             return RedirectToAction(nameof(Lista));
