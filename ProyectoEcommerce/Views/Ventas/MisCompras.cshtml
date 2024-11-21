@@ -25,9 +25,9 @@
                                 @Html.DisplayNameFor(model => model.Fecha)
                             </th>
                             <!--AQUI EL ESTADO DE PEDIDO-->
-@*                             <th>
+                             <th>
                                 @Html.DisplayNameFor(model => model.EstadoPedido)
-                            </th> *@
+                            </th> 
                             <!--HASTA AQUI-->
 
                             <th>
@@ -49,10 +49,9 @@
                                 </td>
 
                                 <!--AQUI PARA MOSTRAR EL ESTADO DEL PEDIDO, NUEVO, DESPACHADO Y ASI-->
-@*                                 <td>
+                                 <td>
                                     @Html.DisplayFor(modelItem => item.EstadoPedido)
-                                </td> *@
-                                <!--HASTA AQUÍ-->
+                                </td> 
 
                                 <td>
                                     @Html.DisplayFor(modelItem => item.Cantidad)
@@ -61,12 +60,12 @@
                                     @Html.DisplayFor(modelItem => item.Total)
                                 </td>
                                 @* Quitar comentario para habilitar detalles externos *@
-@*                                 <td>
+                                 <td>
                                     <a asp-action="MisDetalles" asp-route-id="@item.Id" class="btn btn-outline-info"><i class="fa-solid fa-circle-info"></i></a>
-                                </td> *@
-                                <td>
+                                </td> 
+                                @* <td>
                                     <a class="btn btn-outline-info" href="javascript:void(0);"><i class="fa-solid fa-circle-info"></i></a>
-                                </td>
+                                </td> *@
 
                             </tr>
                         }
